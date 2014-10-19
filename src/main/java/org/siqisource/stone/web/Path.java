@@ -3,7 +3,6 @@ package org.siqisource.stone.web;
 import javax.servlet.ServletContext;
 
 import org.siqisource.stone.web.jspservice.JspService;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.web.context.ServletContextAware;
@@ -17,9 +16,6 @@ public class Path implements ServletContextAware {
 
 	/** contextPath */
 	private String contextPath;
-
-	@Value("${path.jslib}")
-	private String jslibPath;
 
 	public void setServletContext(ServletContext servletContext) {
 
@@ -51,14 +47,6 @@ public class Path implements ServletContextAware {
 
 	public void setContextPath(String contextPath) {
 		this.contextPath = contextPath;
-	}
-
-	public String getJslibPath() {
-		return jslibPath;
-	}
-
-	public void setJslibPath(String jslibPath) {
-		this.jslibPath = jslibPath;
 	}
 
 }
