@@ -80,7 +80,6 @@ public abstract class AbstractService<T> implements Service<T> {
 		}
 	}
 
-
 	/**
 	 * count
 	 * 
@@ -131,7 +130,6 @@ public abstract class AbstractService<T> implements Service<T> {
 		fields.prepareUpdateSql();
 		getMapper().updatePartitive(fields, id);
 	}
-
 
 	/**
 	 * update batch records
@@ -208,6 +206,7 @@ public abstract class AbstractService<T> implements Service<T> {
 	 * 
 	 * @param condition
 	 */
+	@Transactional
 	public void logicDeleteBatch(Object[] idList) {
 		for (Object id : idList) {
 			this.logicDelete(id);

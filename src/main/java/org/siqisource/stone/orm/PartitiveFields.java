@@ -3,6 +3,7 @@ package org.siqisource.stone.orm;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.siqisource.stone.utils.NameConverter;
 
 public class PartitiveFields extends HashMap<String, Object> {
@@ -33,7 +34,7 @@ public class PartitiveFields extends HashMap<String, Object> {
 				sbInsertFields.append(NameConverter.propertyToColumn(key));
 
 				sbInsertValues.append("#{fields[");
-				sbInsertValues.append(key);
+				sbInsertValues.append(StringUtils.trim(key));
 				sbInsertValues.append("]}");
 
 				firstFiled = false;
@@ -62,11 +63,11 @@ public class PartitiveFields extends HashMap<String, Object> {
 					String column = NameConverter.propertyToColumn(key.replace("+=", ""));
 					sbUpdateSql.append(column).append(" = ").append(column).append(" + ");
 					sbUpdateSql.append("#{fields[");
-					sbUpdateSql.append(key);
+					sbUpdateSql.append(StringUtils.trim(key));
 				} else {
 					sbUpdateSql.append(NameConverter.propertyToColumn(key));
 					sbUpdateSql.append(" = #{fields[");
-					sbUpdateSql.append(key);
+					sbUpdateSql.append(key.trim());
 				}
 				sbUpdateSql.append("]}");
 				firstFiled = false;
