@@ -2,6 +2,14 @@ package org.siqisource.stone.utils;
 
 public class NameConverter {
 
+	public static String firstLetterUpper(String string) {
+		return Character.toUpperCase(string.charAt(0)) + string.substring(1);
+	}
+
+	public static String firstLetterLower(String string) {
+		return Character.toLowerCase(string.charAt(0)) + string.substring(1);
+	}
+
 	public static String propertyToColumn(String property) {
 		if (null == property) {
 			return "";

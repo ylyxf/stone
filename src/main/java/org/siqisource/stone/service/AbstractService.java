@@ -38,8 +38,11 @@ public abstract class AbstractService<T> implements Service<T> {
 	 * 
 	 * @param model
 	 */
+	@Transactional
 	public void insertBatch(List<T> models) {
-		getMapper().insertBatch(models);
+		for(T model:models){
+			this.insert(model);
+		}
 	}
 
 	/**

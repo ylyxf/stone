@@ -1,4 +1,4 @@
-package org.siqisource.stone.file;
+package org.siqisource.stone.utils;
 
 import java.io.FileInputStream;
 import java.util.Map;
