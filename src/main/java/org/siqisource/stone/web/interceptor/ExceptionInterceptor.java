@@ -18,12 +18,12 @@ public class ExceptionInterceptor implements HandlerExceptionResolver {
 			HttpServletResponse response, Object handler, Exception ex) {
 		logger.error(ex.getMessage());
 		ex.printStackTrace();
-
-		ModelAndView mv = new ModelAndView("index/Error");
-		mv.addObject("error", ex);
-		if (request.getHeader("X-Requested-With") != null) {
-			mv.addObject("ajax", true);
+		if (logger.isDebugEnabled()) {
+			ex.printStackTrace();
 		}
+
+		ModelAndView mv = new ModelAndView("error/Error");
+		mv.addObject("error", ex);
 		return mv;
 	}
 
