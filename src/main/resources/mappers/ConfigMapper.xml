@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.siqisource.stone.config.mapper.ConfigMapper">
+
+<insert id="insert" parameterType="org.siqisource.stone.config.model.Config"  >
+INSERT INTO st_config (
+	code ,
+	value ,
+	label ,
+	comment ,
+	sort_no ,
+	value ,
+	label ,
+	comment ,
+	sort_no ,
+	class_code 
+) VALUES (
+	#{code ,jdbcType=VARCHAR },
+	#{value ,jdbcType=VARCHAR },
+	#{label ,jdbcType=VARCHAR },
+	#{comment ,jdbcType=VARCHAR },
+	#{sortNo ,jdbcType=INTEGER },
+	#{value ,jdbcType=VARCHAR },
+	#{label ,jdbcType=VARCHAR },
+	#{comment ,jdbcType=VARCHAR },
+	#{sortNo ,jdbcType=INTEGER },
+	#{classCode ,jdbcType=VARCHAR }
+)
+</insert>
+
+
+<insert id="insertPartitive" parameterType="map">
+	INSERT INTO st_config  
+		(${fields._insertFields}) 
+	VALUES 
+		(${fields._insertValues})
+</insert>
+
+<select id="read" parameterType="map" resultType="org.siqisource.stone.config.model.Config">
+	SELECT * FROM st_config   	 
+	WHERE
+	class_code = #{id[0]} AND
+	code = #{id[1]} 
+</select>
+	  
+<select id="count" parameterType="map" resultType="int">
+	SELECT count(1) FROM  st_config   
+	<if test="condition.expressions != null ">
+		<where>${condition.comboedExpressions}</where>
+	</if>		
+</select>
+	  
+<select id="list" parameterType="map" resultType="org.siqisource.stone.config.model.Config">
+	SELECT * FROM  st_config   
+	<if test="condition.expressions != null ">
+		<where>${condition.comboedExpressions}</where>
+	</if>		
+	<if test="condition.orderBy != null">
+		${condition.orderBy}
+	</if>  
+</select>
+
+<update id="update" parameterType="org.siqisource.stone.config.model.Config">
+	UPDATE st_config SET 
+	 	code = #{code ,jdbcType=VARCHAR } ,
+	 	value = #{value ,jdbcType=VARCHAR } ,
+	 	label = #{label ,jdbcType=VARCHAR } ,
+	 	comment = #{comment ,jdbcType=VARCHAR } ,
+	 	sort_no = #{sortNo ,jdbcType=INTEGER } ,
+	 	value = #{value ,jdbcType=VARCHAR } ,
+	 	label = #{label ,jdbcType=VARCHAR } ,
+	 	comment = #{comment ,jdbcType=VARCHAR } ,
+	 	sort_no = #{sortNo ,jdbcType=INTEGER } ,
+	 	class_code = #{classCode ,jdbcType=VARCHAR } 
+	WHERE 
+	class_code = #{id[0]}  AND
+	code = #{id[1]} 
+</update>
+	
+<update id="updatePartitive" parameterType="map" >
+	UPDATE  st_config 
+	SET ${fields._updateSql}
+	WHERE 
+	class_code = #{id[0]}  AND
+	code = #{id[1]} 
+</update>
+	  
+<update id="updateBatch" parameterType="map" >
+	UPDATE  st_config   
+	SET  ${fields._updateSql}
+	<if test="condition.expressions != null ">
+		<where> ${condition.comboedExpressions} </where>
+	</if>		
+</update>
+
+<delete id="delete" parameterType="map" >
+	DELETE FROM  st_config   
+	WHERE 
+	class_code = #{id[0]}  AND
+	code = #{id[1]} 
+</delete>
+	
+<delete id="deleteBatch" parameterType="map" >
+	DELETE FROM st_config 
+	<if test="condition.expressions != null ">
+		<where>${condition.comboedExpressions}</where>
+	</if>		
+</delete>
+	
+</mapper>
