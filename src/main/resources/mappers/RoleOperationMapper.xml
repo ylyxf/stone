@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.siqisource.stone.role.mapper.RoleOperationMapper">
+
+<insert id="insert" parameterType="org.siqisource.stone.role.model.RoleOperation"  useGeneratedKeys="true" keyProperty="id">
+INSERT INTO st_role_operation (
+	role_id ,
+	operation_code ,
+	data_filter_id 
+) VALUES (
+	#{roleId ,jdbcType=INTEGER },
+	#{operationCode ,jdbcType=VARCHAR },
+	#{dataFilterId ,jdbcType=INTEGER }
+)
+</insert>
+
+
+<insert id="insertPartitive" parameterType="map">
+	INSERT INTO st_role_operation  
+		(${fields._insertFields}) 
+	VALUES 
+		(${fields._insertValues})
+</insert>
+
+<select id="read" parameterType="map" resultType="org.siqisource.stone.role.model.RoleOperation">
+	SELECT * FROM st_role_operation   	 
+	WHERE
+	id = #{id[0]} 
+</select>
+	  
+<select id="count" parameterType="map" resultType="int">
+	SELECT count(1) FROM  st_role_operation   
+	<if test="condition.expressions != null ">
+		<where>${condition.comboedExpressions}</where>
+	</if>		
+</select>
+	  
+<select id="list" parameterType="map" resultType="org.siqisource.stone.role.model.RoleOperation">
+	SELECT * FROM  st_role_operation   
+	<if test="condition.expressions != null ">
+		<where>${condition.comboedExpressions}</where>
+	</if>		
+	<if test="condition.orderBy != null">
+		${condition.orderBy}
+	</if>  
+</select>
+
+<update id="update" parameterType="org.siqisource.stone.role.model.RoleOperation">
+	UPDATE st_role_operation SET 
+	 	role_id = #{roleId ,jdbcType=INTEGER } ,
+	 	operation_code = #{operationCode ,jdbcType=VARCHAR } ,
+	 	data_filter_id = #{dataFilterId ,jdbcType=INTEGER } 
+	WHERE 
+	id = #{id,jdbcType=INTEGER} 
+</update>
+	
+<update id="updatePartitive" parameterType="map" >
+	UPDATE  st_role_operation 
+	SET ${fields._updateSql}
+	WHERE 
+	id = #{id[0]} 
+</update>
+	  
+<update id="updateBatch" parameterType="map" >
+	UPDATE  st_role_operation   
+	SET  ${fields._updateSql}
+	<if test="condition.expressions != null ">
+		<where> ${condition.comboedExpressions} </where>
+	</if>		
+</update>
+
+<delete id="delete" parameterType="map" >
+	DELETE FROM  st_role_operation   
+	WHERE 
+	id = #{id[0]} 
+</delete>
+	
+<delete id="deleteBatch" parameterType="map" >
+	DELETE FROM st_role_operation 
+	<if test="condition.expressions != null ">
+		<where>${condition.comboedExpressions}</where>
+	</if>		
+</delete>
+	
+</mapper>

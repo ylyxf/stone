@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.siqisource.stone.group.mapper.GroupMapper">
+
+<insert id="insert" parameterType="org.siqisource.stone.group.model.Group"  useGeneratedKeys="true" keyProperty="id">
+INSERT INTO st_group (
+	parent_id ,
+	code ,
+	name ,
+	is_leaf ,
+	sort_no ,
+	type ,
+	logic_deleted 
+) VALUES (
+	#{parentId ,jdbcType=INTEGER },
+	#{code ,jdbcType=VARCHAR },
+	#{name ,jdbcType=VARCHAR },
+	#{isLeaf ,jdbcType=BOOLEAN },
+	#{sortNo ,jdbcType=INTEGER },
+	#{type ,jdbcType=VARCHAR },
+	#{logicDeleted ,jdbcType=BOOLEAN }
+)
+</insert>
+
+
+<insert id="insertPartitive" parameterType="map">
+	INSERT INTO st_group  
+		(${fields._insertFields}) 
+	VALUES 
+		(${fields._insertValues})
+</insert>
+
+<select id="read" parameterType="map" resultType="org.siqisource.stone.group.model.Group">
+	SELECT * FROM st_group   	 
+	WHERE
+	id = #{id[0]} 
+</select>
+	  
+<select id="count" parameterType="map" resultType="int">
+	SELECT count(1) FROM  st_group   
+	<if test="condition.expressions != null ">
+		<where>${condition.comboedExpressions}</where>
+	</if>		
+</select>
+	  
+<select id="list" parameterType="map" resultType="org.siqisource.stone.group.model.Group">
+	SELECT * FROM  st_group   
+	<if test="condition.expressions != null ">
+		<where>${condition.comboedExpressions}</where>
+	</if>		
+	<if test="condition.orderBy != null">
+		${condition.orderBy}
+	</if>  
+</select>
+
+<update id="update" parameterType="org.siqisource.stone.group.model.Group">
+	UPDATE st_group SET 
+	 	parent_id = #{parentId ,jdbcType=INTEGER } ,
+	 	code = #{code ,jdbcType=VARCHAR } ,
+	 	name = #{name ,jdbcType=VARCHAR } ,
+	 	is_leaf = #{isLeaf ,jdbcType=BOOLEAN } ,
+	 	sort_no = #{sortNo ,jdbcType=INTEGER } ,
+	 	type = #{type ,jdbcType=VARCHAR } ,
+	 	logic_deleted = #{logicDeleted ,jdbcType=BOOLEAN } 
+	WHERE 
+	id = #{id,jdbcType=INTEGER} 
+</update>
+	
+<update id="updatePartitive" parameterType="map" >
+	UPDATE  st_group 
+	SET ${fields._updateSql}
+	WHERE 
+	id = #{id[0]} 
+</update>
+	  
+<update id="updateBatch" parameterType="map" >
+	UPDATE  st_group   
+	SET  ${fields._updateSql}
+	<if test="condition.expressions != null ">
+		<where> ${condition.comboedExpressions} </where>
+	</if>		
+</update>
+
+<delete id="delete" parameterType="map" >
+	DELETE FROM  st_group   
+	WHERE 
+	id = #{id[0]} 
+</delete>
+	
+<delete id="deleteBatch" parameterType="map" >
+	DELETE FROM st_group 
+	<if test="condition.expressions != null ">
+		<where>${condition.comboedExpressions}</where>
+	</if>		
+</delete>
+	
+</mapper>

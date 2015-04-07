@@ -7,23 +7,23 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.web.context.ServletContextAware;
 
-@Component
 @JspService("path")
+@Component
 public class Path implements ServletContextAware {
 
 	/** physicalPath */
-	private String physicalPath;
+	private static String physicalPath;
 
 	/** contextPath */
-	private String contextPath;
+	private static String contextPath;
 
 	public void setServletContext(ServletContext servletContext) {
 
 		physicalPath = servletContext.getRealPath("/");
-		
-		if(ReflectionUtils.findMethod(ServletContext.class, "getContextPath")!=null){
+
+		if (ReflectionUtils.findMethod(ServletContext.class, "getContextPath") != null) {
 			contextPath = servletContext.getContextPath();
-		}else{
+		} else {
 			contextPath = "";
 		}
 
@@ -33,20 +33,20 @@ public class Path implements ServletContextAware {
 		}
 	}
 
-	public String getPhysicalPath() {
+	public static String getPhysicalPath() {
 		return physicalPath;
 	}
 
-	public void setPhysicalPath(String physicalPath) {
-		this.physicalPath = physicalPath;
+	public static void setPhysicalPath(String physicalPath) {
+		Path.physicalPath = physicalPath;
 	}
 
-	public String getContextPath() {
+	public static String getContextPath() {
 		return contextPath;
 	}
 
-	public void setContextPath(String contextPath) {
-		this.contextPath = contextPath;
+	public static void setContextPath(String contextPath) {
+		Path.contextPath = contextPath;
 	}
 
 }

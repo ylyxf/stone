@@ -8,7 +8,7 @@ public class Notify {
 
 	private String title;
 
-	public Notify(String type, String title, String message) {
+	public Notify(String type, String message, String title) {
 		super();
 		this.type = type;
 		this.message = message;

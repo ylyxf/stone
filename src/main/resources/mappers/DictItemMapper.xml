@@ -1,47 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.siqisource.stone.config.mapper.ConfigMapper">
+<mapper namespace="org.siqisource.stone.dict.mapper.DictItemMapper">
 
-<insert id="insert" parameterType="org.siqisource.stone.config.model.Config"  >
-INSERT INTO st_config (
-	value ,
+<insert id="insert" parameterType="org.siqisource.stone.dict.model.DictItem"  useGeneratedKeys="true" keyProperty="id">
+INSERT INTO st_dict_item (
 	label ,
-	comment ,
-	encode ,
-	sort_no 
+	value ,
+	sort_no ,
+	remark ,
+	dict_code 
 ) VALUES (
-	#{value ,jdbcType=VARCHAR },
 	#{label ,jdbcType=VARCHAR },
-	#{comment ,jdbcType=VARCHAR },
-	#{encode ,jdbcType=BOOLEAN },
-	#{sortNo ,jdbcType=INTEGER }
+	#{value ,jdbcType=VARCHAR },
+	#{sortNo ,jdbcType=INTEGER },
+	#{remark ,jdbcType=VARCHAR },
+	#{dictCode ,jdbcType=VARCHAR }
 )
 </insert>
 
 
 <insert id="insertPartitive" parameterType="map">
-	INSERT INTO st_config  
+	INSERT INTO st_dict_item  
 		(${fields._insertFields}) 
 	VALUES 
 		(${fields._insertValues})
 </insert>
 
-<select id="read" parameterType="map" resultType="org.siqisource.stone.config.model.Config">
-	SELECT * FROM st_config   	 
+<select id="read" parameterType="map" resultType="org.siqisource.stone.dict.model.DictItem">
+	SELECT * FROM st_dict_item   	 
 	WHERE
-	code = #{id[0]}  AND 
-	class_code = #{id[1]} 
+	id = #{id[0]} 
 </select>
 	  
 <select id="count" parameterType="map" resultType="int">
-	SELECT count(1) FROM  st_config   
+	SELECT count(1) FROM  st_dict_item   
 	<if test="condition.expressions != null ">
 		<where>${condition.comboedExpressions}</where>
 	</if>		
 </select>
 	  
-<select id="list" parameterType="map" resultType="org.siqisource.stone.config.model.Config">
-	SELECT * FROM  st_config   
+<select id="list" parameterType="map" resultType="org.siqisource.stone.dict.model.DictItem">
+	SELECT * FROM  st_dict_item   
 	<if test="condition.expressions != null ">
 		<where>${condition.comboedExpressions}</where>
 	</if>		
@@ -50,28 +49,26 @@ INSERT INTO st_config (
 	</if>  
 </select>
 
-<update id="update" parameterType="org.siqisource.stone.config.model.Config">
-	UPDATE st_config SET 
-	 	value = #{value ,jdbcType=VARCHAR } ,
+<update id="update" parameterType="org.siqisource.stone.dict.model.DictItem">
+	UPDATE st_dict_item SET 
 	 	label = #{label ,jdbcType=VARCHAR } ,
-	 	comment = #{comment ,jdbcType=VARCHAR } ,
-	 	encode = #{encode ,jdbcType=BOOLEAN } ,
-	 	sort_no = #{sortNo ,jdbcType=INTEGER } 
+	 	value = #{value ,jdbcType=VARCHAR } ,
+	 	sort_no = #{sortNo ,jdbcType=INTEGER } ,
+	 	remark = #{remark ,jdbcType=VARCHAR } ,
+	 	dict_code = #{dictCode ,jdbcType=VARCHAR } 
 	WHERE 
-	code = #{id[0]}  AND 
-	class_code = #{id[1]} 
+	id = #{id,jdbcType=INTEGER} 
 </update>
 	
 <update id="updatePartitive" parameterType="map" >
-	UPDATE  st_config 
+	UPDATE  st_dict_item 
 	SET ${fields._updateSql}
 	WHERE 
-	code = #{id[0]}  AND 
-	class_code = #{id[1]} 
+	id = #{id[0]} 
 </update>
 	  
 <update id="updateBatch" parameterType="map" >
-	UPDATE  st_config   
+	UPDATE  st_dict_item   
 	SET  ${fields._updateSql}
 	<if test="condition.expressions != null ">
 		<where> ${condition.comboedExpressions} </where>
@@ -79,14 +76,13 @@ INSERT INTO st_config (
 </update>
 
 <delete id="delete" parameterType="map" >
-	DELETE FROM  st_config   
+	DELETE FROM  st_dict_item   
 	WHERE 
-	code = #{id[0]}  AND 
-	class_code = #{id[1]} 
+	id = #{id[0]} 
 </delete>
 	
 <delete id="deleteBatch" parameterType="map" >
-	DELETE FROM st_config 
+	DELETE FROM st_dict_item 
 	<if test="condition.expressions != null ">
 		<where>${condition.comboedExpressions}</where>
 	</if>		

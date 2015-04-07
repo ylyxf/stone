@@ -14,6 +14,9 @@ public class Config {
 
 	/*说明*/
 	private  java.lang.String comment;
+	
+	/*加密*/
+	private  boolean encode;
 
 	/*排序*/
 	private  java.lang.Integer sortNo;
@@ -76,5 +79,13 @@ public class Config {
 		this.classCode = classCode ;
 	}
 
-	 
+	public boolean isEncode() {
+		return encode;
+	}
+
+	public void setEncode(boolean encode) {
+		this.encode = encode;
+	}
+
+	
 }

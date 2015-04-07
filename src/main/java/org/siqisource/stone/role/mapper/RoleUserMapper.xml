@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.siqisource.stone.role.mapper.RoleUserMapper">
+
+<select id="listRoleUser" parameterType="map" resultType="org.siqisource.stone.role.model.RoleUserView">
+	select ru.*, u.name as user_name,get_path(g.id,'st_group') as group_name from st_role_user ru,st_user u,st_group g  ,st_group_user gu where 
+	ru.user_id = u.id
+	and u.id = gu.user_id
+	and g.id = gu.group_id
+	and gu.is_default = true
+	<if test="condition.expressions != null ">
+		 ${condition.comboedExpressions} 
+	</if>		
+	<if test="condition.orderBy != null">
+		${condition.orderBy}
+	</if>  
+</select>
+
+<select id="countRoleUser" parameterType="map" resultType="int">
+	select count(1) from st_role_user ru,st_user u,st_group g  ,st_group_user gu where 
+	ru.user_id = u.id
+	and u.id = gu.user_id
+	and g.id = gu.group_id
+	and gu.is_default = true
+	<if test="condition.expressions != null ">
+		 ${condition.comboedExpressions} 
+	</if>		
+</select>
+
+ 
+	
+</mapper>
