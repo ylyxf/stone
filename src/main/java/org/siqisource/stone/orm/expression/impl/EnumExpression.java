@@ -6,7 +6,8 @@ import org.siqisource.stone.orm.expression.SqlCompareExpression;
 
 public class EnumExpression implements SqlCompareExpression {
 
-	public EnumExpression(String prefixCode, String columnCode, String compareSymbol, List<?> valueList, String suffixCode) {
+	public EnumExpression(String prefixCode, String columnCode,
+			String compareSymbol, List<?> valueList, String suffixCode) {
 		this.prefixCode = prefixCode;
 		this.columnCode = columnCode;
 		this.compareSymbol = compareSymbol;
@@ -15,13 +16,13 @@ public class EnumExpression implements SqlCompareExpression {
 	}
 
 	private String prefixCode;
-	
+
 	private String columnCode;
-	
+
 	private String compareSymbol;
-	
+
 	private String suffixCode;
-	
+
 	private List<?> valueList;
 
 	public List<?> getValueList() {
@@ -39,8 +40,8 @@ public class EnumExpression implements SqlCompareExpression {
 		sql.append(" ");
 		sql.append(this.compareSymbol);
 		sql.append(" ( ");
-		for(int i = 0; i < this.valueList.size();i++){
-			if(i!=0){
+		for (int i = 0; i < this.valueList.size(); i++) {
+			if (i != 0) {
 				sql.append(" , ");
 			}
 			sql.append("#{condition.expressions[");

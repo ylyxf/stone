@@ -20,13 +20,17 @@ public class Condition {
 
 	}
 
+	public void addCondition(Condition condition) {
+		expressions.addAll(condition.getExpressions());
+	}
+
 	public void addExpression(SqlCompareExpression expression) {
 		if (expressions == null) {
 			expressions = new ArrayList<SqlCompareExpression>();
 		}
 		expressions.add(expression);
 	}
-	
+
 	public String getComboedExpressions() {
 		StringBuffer sql = new StringBuffer();
 		if (expressions != null) {

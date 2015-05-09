@@ -2,6 +2,8 @@ package org.siqisource.stone.user.service;
 
 import java.util.List;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.siqisource.stone.exceptions.BusinessException;
 import org.siqisource.stone.orm.MybatisMapper;
 import org.siqisource.stone.orm.PartitiveFields;
@@ -20,13 +22,21 @@ public class UserService extends AbstractService<User> {
 
 	@Autowired
 	UserMapper mapper;
-
+	
 	@Autowired
 	GroupUserService groupUserService;
 
 	@Override
 	protected MybatisMapper<User> getMapper() {
 		return this.mapper;
+	}
+	
+	public User currentUser() {
+		Subject subject = SecurityUtils.getSubject();
+		String userName = (String) subject.getPrincipal();
+		SimpleCondition condition = new SimpleCondition();
+		condition.andEqual("account", userName);
+		return this.readOne(condition);
 	}
 
 	public User readUser(Integer userId) {
@@ -96,7 +106,7 @@ public class UserService extends AbstractService<User> {
 	}
 	 
 	
-	public void checkUser(User user){
+	private void checkUser(User user){
 		SimpleCondition condition = new SimpleCondition();
 		condition.andEqual("account", user.getAccount());
 		if(this.count(condition)>=1){

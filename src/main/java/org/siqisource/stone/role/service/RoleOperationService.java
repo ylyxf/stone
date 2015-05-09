@@ -60,4 +60,9 @@ public class RoleOperationService extends AbstractService<RoleOperation> {
 		simpleCondition.andEqual("operationCode", operationCode);
 		this.deleteBatch(simpleCondition);
 	}
+
+	public List<RoleOperation> listOperation(Integer userId,
+			String operationCode){
+		return this.mapper.listOperation(userId, operationCode);
+	}
 }

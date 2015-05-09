@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.siqisource.stone.role.mapper.RoleOperationMapper">
+
+<select id="listOperation" parameterType="map" resultType="org.siqisource.stone.role.model.RoleOperation">
+	select ro.* from st_role_user ru, st_role_operation ro
+	where ru.role_id = ro.role_id
+	and ru.user_id = #{userId} and ro.operation_code =#{operationCode}
+</select>
+ 
+</mapper>
