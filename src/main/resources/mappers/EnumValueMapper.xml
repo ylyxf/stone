@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.siqisource.stone.datafilter.mapper.DataFilterMapper">
+<mapper namespace="org.siqisource.stone.datafilter.mapper.EnumValueMapper">
 
-<insert id="insert" parameterType="org.siqisource.stone.datafilter.model.DataFilter" useGeneratedKeys="true" keyProperty="id">
-INSERT INTO st_data_filter (
+<insert id="insert" parameterType="org.siqisource.stone.datafilter.model.EnumValue" useGeneratedKeys="true" keyProperty="id">
+INSERT INTO st_enum_value (
 
-	name ,
+	data_filter_item_id ,
 
-	remark 
+	data_value 
 
 ) VALUES (
 
-	#{name ,jdbcType=VARCHAR} ,
+	#{dataFilterItemId ,jdbcType=NUMERIC} ,
 
-	#{remark ,jdbcType=VARCHAR} 
+	#{dataValue ,jdbcType=VARCHAR} 
 
 )
 </insert>
 	
 <insert id="insertBatch" parameterType="java.util.List" >
-INSERT INTO st_data_filter  (
+INSERT INTO st_enum_value  (
 
-	name ,
+	data_filter_item_id ,
 
-	remark 
+	data_value 
 
 )VALUES
 <foreach collection="list" item="item" index="index" separator="," > 
 (
 
-#{name ,jdbcType=VARCHAR} ,
+#{dataFilterItemId ,jdbcType=NUMERIC} ,
 
-#{remark ,jdbcType=VARCHAR} 
+#{dataValue ,jdbcType=VARCHAR} 
 
 )
 </foreach>
@@ -39,14 +39,14 @@ INSERT INTO st_data_filter  (
 </insert>
 
 <insert id="insertPartitive" parameterType="map">
-	INSERT INTO st_data_filter  
+	INSERT INTO st_enum_value  
 		(${fields._insertFields}) 
 	VALUES 
 		(${fields._insertValues})
 </insert>
 	        
-<select id="read" parameterType="map" resultType="org.siqisource.stone.datafilter.model.DataFilter">
-	SELECT * FROM st_data_filter 	 
+<select id="read" parameterType="map" resultType="org.siqisource.stone.datafilter.model.EnumValue">
+	SELECT * FROM st_enum_value 	 
 	WHERE
 	
 	id = #{id[0]} 
@@ -54,14 +54,14 @@ INSERT INTO st_data_filter  (
 </select>
 	  
 <select id="count" parameterType="map" resultType="int">
-	SELECT count(1) FROM st_data_filter 
+	SELECT count(1) FROM st_enum_value 
 	<if test="condition.expressions != null ">
 		<where>${condition.comboedExpressions}</where>
 	</if>		
 </select>
 	  
-<select id="list" parameterType="map" resultType="org.siqisource.stone.datafilter.model.DataFilter">
-	SELECT * FROM  st_data_filter  
+<select id="list" parameterType="map" resultType="org.siqisource.stone.datafilter.model.EnumValue">
+	SELECT * FROM  st_enum_value  
 	<if test="condition.expressions != null ">
 		<where>${condition.comboedExpressions}</where>
 	</if>		
@@ -70,12 +70,12 @@ INSERT INTO st_data_filter  (
 	</if>  
 </select>
 	  
-<update id="update" parameterType="org.siqisource.stone.datafilter.model.DataFilter">
-	UPDATE st_data_filter SET 
+<update id="update" parameterType="org.siqisource.stone.datafilter.model.EnumValue">
+	UPDATE st_enum_value SET 
 	
-	name = #{name ,jdbcType=VARCHAR}  , 
+	data_filter_item_id = #{dataFilterItemId ,jdbcType=NUMERIC}  , 
 	
-	remark = #{remark ,jdbcType=VARCHAR} 
+	data_value = #{dataValue ,jdbcType=VARCHAR} 
 	
 	WHERE 
 	
@@ -84,7 +84,7 @@ INSERT INTO st_data_filter  (
 </update>
 	
 <update id="updatePartitive" parameterType="map" >
-	UPDATE st_data_filter 
+	UPDATE st_enum_value 
 	SET ${fields._updateSql}
 	WHERE 
 	
@@ -93,7 +93,7 @@ INSERT INTO st_data_filter  (
 </update>
 	  
 <update id="updateBatch" parameterType="map" >
-	UPDATE st_data_filter  
+	UPDATE st_enum_value  
 	SET  ${fields._updateSql}
 	<if test="condition.expressions != null ">
 		<where> ${condition.comboedExpressions} </where>
@@ -101,7 +101,7 @@ INSERT INTO st_data_filter  (
 </update>
 		  
 <delete id="delete" parameterType="map" >
-	DELETE FROM st_data_filter   
+	DELETE FROM st_enum_value   
 	WHERE 
 	
 	id = #{id[0]} 
@@ -109,7 +109,7 @@ INSERT INTO st_data_filter  (
 </delete>
 	
 <delete id="deleteBatch" parameterType="map" >
-	DELETE FROM st_data_filter 
+	DELETE FROM st_enum_value 
 	<if test="condition.expressions != null ">
 		<where>${condition.comboedExpressions}</where>
 	</if>		

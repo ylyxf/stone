@@ -1,6 +1,5 @@
 package org.siqisource.stone.datafilter.model;
 
-import java.util.Date;
 			
 public class DataFilter {
 
