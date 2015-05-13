@@ -150,8 +150,12 @@ public abstract class AbstractService<T> implements Service<T> {
 	 * 
 	 * @param condition
 	 */
+	@Transactional
 	public void updateBatch(List<T> models) {
-		getMapper().updateBatchList(models);
+		for(T model:models){
+			getMapper().update(model);
+		}
+		
 	}
 
 	/**

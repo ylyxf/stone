@@ -23,13 +23,6 @@ public interface MybatisMapper<T> {
 	public void insert(T model);
 
 	/**
-	 * insert object to database batch
-	 * 
-	 * @param model
-	 */
-	public void insertBatch(@Param("list") List<T> models);
-
-	/**
 	 * insert some fields of the table
 	 * 
 	 * @param fields
@@ -96,13 +89,6 @@ public interface MybatisMapper<T> {
 	public void updateBatch(@Param("fields") PartitiveFields fields,
 			@Param("condition") Condition condition);
 	
-	/**
-	 * update batch records
-	 * 
-	 * @param condition
-	 */
-	public void updateBatchList(@Param("list") List<T> models);
-
 	/**
 	 * delete from database
 	 * 
