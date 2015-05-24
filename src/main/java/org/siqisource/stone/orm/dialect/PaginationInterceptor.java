@@ -35,19 +35,19 @@ public class PaginationInterceptor implements Interceptor {
 
 		Dialect dialect = null;
 		switch (databaseType) {
-		case MYSQL:
+		case MySql:
 			dialect = new MySqlDialect();
 			break;
-		case ORACLE:
+		case Oracle:
 			dialect = new OracleDialect();
 			break;
-		case POSTGRESQL:
+		case PostgreSql:
 			dialect = new PostgreSqlDialect();
 			break;
 		case H2:
 			dialect = new H2Dialect();
 			break;
-		case SQLSERVER:
+		case SqlServer:
 			dialect = new SqlServerDialect();
 			break; 
 		default:

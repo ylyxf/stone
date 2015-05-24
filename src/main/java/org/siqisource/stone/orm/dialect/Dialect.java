@@ -3,11 +3,11 @@ package org.siqisource.stone.orm.dialect;
 public abstract class Dialect {
 
 	public static enum Type {
-		MYSQL,
-		ORACLE,
-		POSTGRESQL,
+		MySql,
+		Oracle,
+		PostgreSql,
 		H2,
-		SQLSERVER
+		SqlServer
 	}
 
 	public abstract String getLimitString(String sql, int skipResults,
