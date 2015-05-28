@@ -10,10 +10,12 @@ import org.siqisource.stone.dict.model.DictItem;
 import org.siqisource.stone.orm.MybatisMapper;
 import org.siqisource.stone.orm.condition.SimpleCondition;
 import org.siqisource.stone.service.AbstractService;
+import org.siqisource.stone.web.jspservice.JspService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+@JspService
 public class DictItemService extends AbstractService<DictItem> {
 
 	@Autowired
