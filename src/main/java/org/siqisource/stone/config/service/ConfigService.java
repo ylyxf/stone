@@ -1,5 +1,6 @@
 package org.siqisource.stone.config.service;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.sql.Date;
 import java.sql.Time;
@@ -7,18 +8,20 @@ import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.codec.Base64;
+import org.siqisource.stone.config.annotation.Config;
 import org.siqisource.stone.config.mapper.ConfigMapper;
-import org.siqisource.stone.config.model.Config;
-import org.siqisource.stone.config.model.ConfigClass;
-import org.siqisource.stone.exceptions.BusinessException;
+import org.siqisource.stone.config.model.ConfigClassEntity;
+import org.siqisource.stone.config.model.ConfigEntity;
 import org.siqisource.stone.exceptions.ProgramException;
 import org.siqisource.stone.orm.MybatisMapper;
 import org.siqisource.stone.orm.PartitiveFields;
-import org.siqisource.stone.orm.condition.SimpleCondition;
 import org.siqisource.stone.service.AbstractService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,33 +29,63 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ReflectionUtils;
 
 @Service
-public class ConfigService extends AbstractService<Config> {
+public class ConfigService extends AbstractService<ConfigEntity> {
 
 	@Autowired
 	ConfigMapper mapper;
 
-	@Autowired
-	ConfigClassService configClassService;
+	private Map<String, ConfigClassEntity> configClassEntityMap = new HashMap<String, ConfigClassEntity>();
+
+	private Map<String, Object> configBeanMap = new HashMap<String, Object>();
 
 	@Override
-	protected MybatisMapper<Config> getMapper() {
+	protected MybatisMapper<ConfigEntity> getMapper() {
 		return this.mapper;
 	}
 
+	public List<ConfigClassEntity> listConfigClassEntity() {
+		return new ArrayList<ConfigClassEntity>(configClassEntityMap.values());
+	}
+
+	public ConfigClassEntity readConfigClassEntity(String classCode) {
+		ConfigClassEntity configClassEntity = configClassEntityMap
+				.get(classCode);
+		return configClassEntity;
+	}
+
+	public void addConfigClass(Object bean, ConfigClassEntity configClassEntity) {
+		String code = configClassEntity.getCode();
+		configClassEntityMap.put(code, configClassEntity);
+		configBeanMap.put(code, bean);
+		//初始化Bean的值
+		readConfig(bean);
+	}
+
 	@Transactional
-	public void saveConfigList(List<Config> configList) {
-		for (Config config : configList) {
+	public void saveConfigClassEntity(ConfigClassEntity configClassEntity) {
+		String classCode = configClassEntity.getCode();
+		List<ConfigEntity> configList = configClassEntity.getConfigEntityList();
+		for (ConfigEntity configEntity : configList) {
 			PartitiveFields fields = new PartitiveFields();
-			String value = config.getValue();
-			if (config.isEncode() && StringUtils.isNotBlank(value)) {
+			String code = configEntity.getCode();
+			String value = configEntity.getValue();
+			if (configEntity.getEncode() && StringUtils.isNotBlank(value)) {
 				value = Base64.encodeToString(value.getBytes());
 			}
 			fields.put("value", value);
-			this.updatePartitive(fields, config.getCode(),
-					config.getClassCode());
+			this.updatePartitive(fields, code, classCode);
+
 		}
+		// 更新对应的容器中的Bean的值
+		Object bean = configBeanMap.get(configClassEntity);
+		readConfig(bean);
 	}
 
+	/**
+	 * 根据配置类更新数据库的配置值
+	 * 
+	 * @param object
+	 */
 	public void writeConfig(final Object object) {
 		ReflectionUtils.doWithFields(object.getClass(),
 				new ReflectionUtils.FieldCallback() {
@@ -61,71 +94,81 @@ public class ConfigService extends AbstractService<Config> {
 					public void doWith(Field field)
 							throws IllegalArgumentException,
 							IllegalAccessException {
-						String className = object.getClass().getName();
+						String classCode = object.getClass().getName();
 						String code = field.getName();
-						Config config = read(code);
-						if (config != null) {
+						ConfigEntity configEntity = read(code, classCode);
+						if (configEntity != null) {
 							PartitiveFields fields = new PartitiveFields();
 							String value = String.valueOf(field.get(object));
-							if (config.isEncode()
+							if (configEntity.getEncode()
 									&& StringUtils.isNotBlank(value)) {
 								value = Base64.encodeToString(value.getBytes());
 							}
 							fields.put("value", value);
-							updatePartitive(fields, code, className);
+							updatePartitive(fields, code, classCode);
 						}
 					}
 
 				});
 	}
 
-	public void readConfig(final Object object, Boolean strict) {
-		String className = object.getClass().getName();
-		SimpleCondition condition = new SimpleCondition();
-		condition.andEqual("classCode", className);
-		List<Config> configList = this.list(condition);
+	/**
+	 * 根据配置，读取配置库的配置值
+	 */
+	public void readConfig(final Object bean) {
+		final String classCode = bean.getClass().getName();
 
-		StringBuffer tips = new StringBuffer();
-		for (final Config config : configList) {
-			if (StringUtils.isBlank(config.getValue()) && strict) {
-				ConfigClass configClass = configClassService.read(config
-						.getClassCode());
-				String tip = "配置：" + configClass.getLabel() + "的配置项："
-						+ config.getLabel() + "的值为空。";
-				tips.append(tip);
-			}
-		}
-		if (tips.length() > 0) {
-			throw new BusinessException(tips.toString(), configList);
-		}
+		ReflectionUtils.doWithFields(bean.getClass(),
+				new ReflectionUtils.FieldCallback() {
 
-		for (final Config config : configList) {
+					@Override
+					public void doWith(Field field)
+							throws IllegalArgumentException,
+							IllegalAccessException {
 
-			ReflectionUtils.doWithFields(object.getClass(),
-					new ReflectionUtils.FieldCallback() {
-
-						@Override
-						public void doWith(Field field)
-								throws IllegalArgumentException,
-								IllegalAccessException {
-							String code = config.getCode();
-							String value = config.getValue();
-							if (config.isEncode()
-									&& StringUtils.isNotBlank(value)) {
-								value = Base64.decodeToString(value.getBytes());
-							}
-							if (field.getName().equals(code)) {
-								ReflectionUtils.setField(field, object,
+						for (Annotation anno : field.getAnnotations()) {
+							if (anno instanceof Config) {
+								String code = field.getName();
+								ConfigEntity configEntity = readConfigEntity(
+										code, classCode);
+								String value = configEntity.getValue();
+								ReflectionUtils.setField(field, bean,
 										getTypedValue(field, value));
-							}
 
+							}
 						}
 
-					});
-		}
+					}
+
+				});
+
 	}
 
-	private Object getTypedValue(Field field, String value) {
+	private ConfigEntity readConfigEntity(String code, String classCode) {
+		// 从配置信息中找到它
+		ConfigEntity result = null;
+		final ConfigClassEntity configClassEntity = configClassEntityMap
+				.get(classCode);
+		for (ConfigEntity configEntity : configClassEntity
+				.getConfigEntityList()) {
+			if (code.equals(configEntity.getCode())) {
+				result = configEntity;
+			}
+		}
+		// 从数据库中找到值，并对Value进行赋值
+		ConfigEntity configEntity = read(code, classCode);
+		if (configEntity == null) {
+			configEntity = new ConfigEntity();
+			configEntity.setClassCode(classCode);
+			configEntity.setCode(code);
+			configEntity.setValue("");
+			this.insert(configEntity);
+		}
+		configEntity.setValue(configEntity.getValue());
+		return result;
+	}
+
+	public Object getTypedValue(Field field, String value) {
 		if (field.getType().equals(String.class)) {
 			return value;
 		} else if (field.getType().equals(Integer.class)) {
@@ -157,4 +200,5 @@ public class ConfigService extends AbstractService<Config> {
 		}
 		throw new ProgramException("不被支持的配置项的类型：" + field.getType() + "。");
 	}
+
 }

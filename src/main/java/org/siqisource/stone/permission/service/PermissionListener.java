@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.siqisource.stone.permission.model.Permission;
-import org.siqisource.stone.permission.model.PermissionClass;
+import org.siqisource.stone.permission.annotation.Permission;
+import org.siqisource.stone.permission.annotation.PermissionClass;
 import org.siqisource.stone.permission.model.PermissionClassEntity;
 import org.siqisource.stone.permission.model.PermissionEntity;
 import org.slf4j.Logger;

@@ -2,19 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.siqisource.stone.config.mapper.ConfigMapper">
 
-<insert id="insert" parameterType="org.siqisource.stone.config.model.Config"  >
+<insert id="insert" parameterType="org.siqisource.stone.config.model.ConfigEntity"  >
 INSERT INTO st_config (
-	value ,
-	label ,
-	comment ,
-	encode ,
-	sort_no 
+	code,
+	class_code,
+	value
 ) VALUES (
-	#{value ,jdbcType=VARCHAR },
-	#{label ,jdbcType=VARCHAR },
-	#{comment ,jdbcType=VARCHAR },
-	#{encode ,jdbcType=BOOLEAN },
-	#{sortNo ,jdbcType=INTEGER }
+	#{code ,jdbcType=VARCHAR },
+	#{class_code ,jdbcType=VARCHAR },
+	#{value ,jdbcType=VARCHAR }
 )
 </insert>
 
@@ -26,7 +22,7 @@ INSERT INTO st_config (
 		(${fields._insertValues})
 </insert>
 
-<select id="read" parameterType="map" resultType="org.siqisource.stone.config.model.Config">
+<select id="read" parameterType="map" resultType="org.siqisource.stone.config.model.ConfigEntity">
 	SELECT * FROM st_config   	 
 	WHERE
 	code = #{id[0]}  AND 
@@ -40,7 +36,7 @@ INSERT INTO st_config (
 	</if>		
 </select>
 	  
-<select id="list" parameterType="map" resultType="org.siqisource.stone.config.model.Config">
+<select id="list" parameterType="map" resultType="org.siqisource.stone.config.model.ConfigEntity">
 	SELECT * FROM  st_config   
 	<if test="condition.expressions != null ">
 		<where>${condition.comboedExpressions}</where>
@@ -50,13 +46,9 @@ INSERT INTO st_config (
 	</if>  
 </select>
 
-<update id="update" parameterType="org.siqisource.stone.config.model.Config">
+<update id="update" parameterType="org.siqisource.stone.config.model.ConfigEntity">
 	UPDATE st_config SET 
-	 	value = #{value ,jdbcType=VARCHAR } ,
-	 	label = #{label ,jdbcType=VARCHAR } ,
-	 	comment = #{comment ,jdbcType=VARCHAR } ,
-	 	encode = #{encode ,jdbcType=BOOLEAN } ,
-	 	sort_no = #{sortNo ,jdbcType=INTEGER } 
+	 	value = #{value ,jdbcType=VARCHAR } 
 	WHERE 
 	code = #{id[0]}  AND 
 	class_code = #{id[1]} 
