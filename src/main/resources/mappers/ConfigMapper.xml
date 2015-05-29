@@ -9,7 +9,7 @@ INSERT INTO st_config (
 	value
 ) VALUES (
 	#{code ,jdbcType=VARCHAR },
-	#{class_code ,jdbcType=VARCHAR },
+	#{classCode ,jdbcType=VARCHAR },
 	#{value ,jdbcType=VARCHAR }
 )
 </insert>

@@ -56,6 +56,7 @@ public class PermissionListener implements
 			try {
 				for (Annotation anno : field.getAnnotations()) {
 					if (anno instanceof Permission) {
+						field.setAccessible(true);
 						PermissionEntity permissionEntity = new PermissionEntity();
 						Permission permission = (Permission) anno;
 						permissionEntity.setName(permission.value());
