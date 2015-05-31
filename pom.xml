@@ -4,7 +4,7 @@
 
 	<groupId>org.siqisource</groupId>
 	<artifactId>stone</artifactId>
-	<version>1.0.5-SNAPSHOT</version>
+	<version>1.0.5</version>
 	<packaging>jar</packaging>
 
 
@@ -58,7 +58,7 @@
 		<spring.version>3.2.3.RELEASE</spring.version>
 		<taglibs-standard.version>1.1.2</taglibs-standard.version>
 		<jxls-core.version>1.0.5</jxls-core.version>
-
+		<freemarker.version>2.3.21</freemarker.version>
 		<!-- Plugin Dependency Version Properties -->
 		<maven-source-plugin.version>2.2.1</maven-source-plugin.version>
 		<maven-javadoc-plugin.version>2.9.1</maven-javadoc-plugin.version>
@@ -92,6 +92,13 @@
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 			<version>${jackson.version}</version>
+		</dependency>
+
+		<!-- freemarker -->
+		<dependency>
+			<groupId>org.freemarker</groupId>
+			<artifactId>freemarker</artifactId>
+			<version>${freemarker.version}</version>
 		</dependency>
 
 
