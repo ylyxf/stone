@@ -1,5 +1,7 @@
 package org.siqisource.stone.web;
 
+import java.io.File;
+
 import javax.servlet.ServletContext;
 
 import org.siqisource.stone.web.jspservice.JspService;
@@ -27,9 +29,14 @@ public class Path implements ServletContextAware {
 			contextPath = "";
 		}
 
-		int iLastSlash = contextPath.lastIndexOf('/');
-		if (iLastSlash != -1 && iLastSlash == contextPath.length() - 1) {
-			contextPath = contextPath.substring(0, iLastSlash);
+		int contextLastSlash = contextPath.lastIndexOf('/');
+		if (contextLastSlash != -1 && contextLastSlash == contextPath.length() - 1) {
+			contextPath = contextPath.substring(0, contextLastSlash);
+		}
+		
+		int physicalLastSlash = physicalPath.lastIndexOf(File.separator);
+		if (physicalLastSlash != -1 && physicalLastSlash == physicalPath.length() - 1) {
+			physicalPath = physicalPath.substring(0, physicalLastSlash);
 		}
 	}
 
