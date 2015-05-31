@@ -25,11 +25,19 @@ public class ContextTemplate implements
 	}
 
 	public String parse(String name, String value) {
+		return this.parse(name, value, components);
+	}
+
+	public String parse(String value, Map<String, Object> root) {
+		return this.parse(value, value, root);
+	}
+
+	public String parse(String name, String value, Map<String, Object> root) {
 		try {
 			Template template = new Template(name, new StringReader(value),
 					new Configuration(Configuration.getVersion()));
 			StringWriter writer = new StringWriter();
-			template.process(components, writer);
+			template.process(root, writer);
 			return writer.toString();
 		} catch (Exception e) {
 			return value;
