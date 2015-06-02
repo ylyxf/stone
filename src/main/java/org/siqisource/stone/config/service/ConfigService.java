@@ -2,7 +2,9 @@ package org.siqisource.stone.config.service;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.sql.Connection;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.DateFormat;
@@ -12,6 +14,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.annotation.Resource;
+import javax.sql.DataSource;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.codec.Base64;
@@ -33,6 +38,9 @@ public class ConfigService extends AbstractService<ConfigEntity> {
 
 	@Autowired
 	ConfigMapper mapper;
+
+	@Resource(name = "${dataSource.name}")
+	DataSource dataSource;
 
 	@Override
 	protected MybatisMapper<ConfigEntity> getMapper() {
@@ -139,6 +147,9 @@ public class ConfigService extends AbstractService<ConfigEntity> {
 	 * @return
 	 */
 	private String readConfigValue(String code, String classCode) {
+		if (!checkConnection()) {
+			return "";
+		}
 		// 从数据库中找到值，并对Value进行赋值
 		ConfigEntity configEntity = read(code, classCode);
 		if (configEntity == null) {
@@ -245,6 +256,16 @@ public class ConfigService extends AbstractService<ConfigEntity> {
 					}
 
 				});
+	}
+
+	private boolean checkConnection() {
+		try {
+			Connection conn = dataSource.getConnection();
+			conn.close();
+			return true;
+		} catch (SQLException e) {
+			return false;
+		}
 	}
 
 }
