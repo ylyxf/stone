@@ -43,7 +43,7 @@
 			<export_ddl_setting>
 				<output_path>stone-pgsql.sql</output_path>
 				<encoding>UTF-8</encoding>
-				<line_feed>CR+LF</line_feed>
+				<line_feed>LF</line_feed>
 				<is_open_after_saved>true</is_open_after_saved>
 				<environment_id>0</environment_id>
 				<category_id>null</category_id>
@@ -135,7 +135,7 @@
 			</connections>
 			<display>false</display>
 			<creation_date>2015-05-15 14:25:49</creation_date>
-			<updated_date>2015-06-02 09:59:37</updated_date>
+			<updated_date>2015-06-02 21:47:28</updated_date>
 			<model_property>
 				<name>Project Name</name>
 				<value></value>

@@ -1,38 +1,33 @@
 
-/* Drop Tables */
+-- Drop Tables 
 
-DROP TABLE IF EXISTS public.st_config;
-DROP TABLE IF EXISTS public.st_enum_value;
-DROP TABLE IF EXISTS public.st_data_filter_item;
-DROP TABLE IF EXISTS public.st_data_filter;
-DROP TABLE IF EXISTS public.st_dict_item;
-DROP TABLE IF EXISTS public.st_dict;
-DROP TABLE IF EXISTS public.st_group_user;
-DROP TABLE IF EXISTS public.st_group;
-DROP TABLE IF EXISTS public.st_role_user;
-DROP TABLE IF EXISTS public.st_role_operation;
-DROP TABLE IF EXISTS public.st_role;
-DROP TABLE IF EXISTS public.st_user;
-
-
+DROP TABLE IF EXISTS public.st_config^_^
+DROP TABLE IF EXISTS public.st_enum_value^_^
+DROP TABLE IF EXISTS public.st_data_filter_item^_^
+DROP TABLE IF EXISTS public.st_data_filter^_^
+DROP TABLE IF EXISTS public.st_dict_item^_^
+DROP TABLE IF EXISTS public.st_dict^_^
+DROP TABLE IF EXISTS public.st_group_user^_^
+DROP TABLE IF EXISTS public.st_group^_^
+DROP TABLE IF EXISTS public.st_role_operation^_^
+DROP TABLE IF EXISTS public.st_role_user^_^
+DROP TABLE IF EXISTS public.st_role^_^
+DROP TABLE IF EXISTS public.st_user^_^
 
 
-/* Create Tables */
+
+
+-- Create Tables 
 
 CREATE TABLE public.st_config
 (
 	-- 类的属性名
 	code varchar(120) NOT NULL,
-	
-	-- 类名
-	class_code varchar(256) NOT NULL,
-	
+	class_code varchar(255) NOT NULL,
 	-- 值
-	value varchar(256)
-	
+	value varchar(255),
 	CONSTRAINT st_config_pkey PRIMARY KEY (code, class_code)
-) WITHOUT OIDS;
-
+) WITHOUT OIDS^_^
 
 
 CREATE TABLE public.st_data_filter
@@ -44,7 +39,7 @@ CREATE TABLE public.st_data_filter
 	-- 备注
 	remark varchar(256),
 	CONSTRAINT pk_st_data_filter PRIMARY KEY (id)
-) WITHOUT OIDS;
+) WITHOUT OIDS^_^
 
 
 CREATE TABLE public.st_data_filter_item
@@ -72,7 +67,7 @@ CREATE TABLE public.st_data_filter_item
 	-- 数据过滤器
 	data_filter_id int,
 	CONSTRAINT pk_st_data_filter_item PRIMARY KEY (id)
-) WITHOUT OIDS;
+) WITHOUT OIDS^_^
 
 
 CREATE TABLE public.st_dict
@@ -81,8 +76,8 @@ CREATE TABLE public.st_dict
 	name varchar(20),
 	sort_no int,
 	remark varchar(100),
-	CONSTRAINT agv_dictionary_pkey PRIMARY KEY (code)
-) WITHOUT OIDS;
+	CONSTRAINT st_dict_pkey PRIMARY KEY (code)
+) WITHOUT OIDS^_^
 
 
 CREATE TABLE public.st_dict_item
@@ -93,8 +88,8 @@ CREATE TABLE public.st_dict_item
 	sort_no int,
 	remark varchar(50),
 	dict_code varchar(64),
-	CONSTRAINT agv_dictionary_itme_pkey PRIMARY KEY (id)
-) WITHOUT OIDS;
+	CONSTRAINT st_dict_item_pkey PRIMARY KEY (id)
+) WITHOUT OIDS^_^
 
 
 CREATE TABLE public.st_enum_value
@@ -104,7 +99,7 @@ CREATE TABLE public.st_enum_value
 	data_filter_item_id int,
 	data_value varchar(64),
 	CONSTRAINT pk_st_enum_value PRIMARY KEY (id)
-) WITHOUT OIDS;
+) WITHOUT OIDS^_^
 
 
 CREATE TABLE public.st_group
@@ -116,7 +111,7 @@ CREATE TABLE public.st_group
 	-- 群组编码
 	code varchar(20),
 	-- 群组名称
-	name varchar(20),
+	name varchar(64),
 	-- 是否叶子节点
 	is_leaf boolean,
 	-- 序号
@@ -125,8 +120,8 @@ CREATE TABLE public.st_group
 	type varchar(20),
 	-- 逻辑删除
 	logic_deleted boolean,
-	CONSTRAINT agv_group_pkey PRIMARY KEY (id)
-) WITHOUT OIDS;
+	CONSTRAINT st_group_pkey PRIMARY KEY (id)
+) WITHOUT OIDS^_^
 
 
 CREATE TABLE public.st_group_user
@@ -141,8 +136,8 @@ CREATE TABLE public.st_group_user
 	is_default boolean DEFAULT 'false',
 	-- 序号
 	sort_no int,
-	CONSTRAINT agv_group_re_user_pkey PRIMARY KEY (id)
-) WITHOUT OIDS;
+	CONSTRAINT st_group_re_user_pkey PRIMARY KEY (id)
+) WITHOUT OIDS^_^
 
 
 CREATE TABLE public.st_role
@@ -155,8 +150,8 @@ CREATE TABLE public.st_role
 	enabled boolean,
 	-- 序号
 	sort_no int,
-	CONSTRAINT agv_role_pkey PRIMARY KEY (id)
-) WITHOUT OIDS;
+	CONSTRAINT st_role_pkey PRIMARY KEY (id)
+) WITHOUT OIDS^_^
 
 
 CREATE TABLE public.st_role_operation
@@ -169,8 +164,8 @@ CREATE TABLE public.st_role_operation
 	operation_code varchar(100),
 	-- 数据集合Id
 	data_filter_id int,
-	CONSTRAINT agv_role_operation_pkey PRIMARY KEY (id)
-) WITHOUT OIDS;
+	CONSTRAINT st_role_operation_pkey PRIMARY KEY (id)
+) WITHOUT OIDS^_^
 
 
 CREATE TABLE public.st_role_user
@@ -180,8 +175,8 @@ CREATE TABLE public.st_role_user
 	user_id int NOT NULL,
 	-- 角色Id
 	role_id int NOT NULL,
-	CONSTRAINT agv_role_user_pkey PRIMARY KEY (id)
-) WITHOUT OIDS;
+	CONSTRAINT st_role_user_pkey PRIMARY KEY (id)
+) WITHOUT OIDS^_^
 
 
 CREATE TABLE public.st_user
@@ -202,27 +197,27 @@ CREATE TABLE public.st_user
 	enabled boolean,
 	-- 是否删除
 	logic_deleted boolean,
-	CONSTRAINT agv_user_pkey PRIMARY KEY (id)
-) WITHOUT OIDS;
+	CONSTRAINT st_user_pkey PRIMARY KEY (id)
+) WITHOUT OIDS^_^
 
 
 
-
+-- Create Foreign Keys 
 
 ALTER TABLE public.st_data_filter_item
-	ADD CONSTRAINT fk_st_data__reference_st_data_ FOREIGN KEY (data_filter_id)
+	ADD CONSTRAINT fk_st_data_reference_st_data_ FOREIGN KEY (data_filter_id)
 	REFERENCES public.st_data_filter (id)
 	ON UPDATE RESTRICT
 	ON DELETE RESTRICT
-;
+^_^
 
 
 ALTER TABLE public.st_enum_value
-	ADD CONSTRAINT fk_st_enum__reference_st_data_ FOREIGN KEY (data_filter_item_id)
+	ADD CONSTRAINT fk_st_enum_reference_st_data_ FOREIGN KEY (data_filter_item_id)
 	REFERENCES public.st_data_filter_item (id)
 	ON UPDATE RESTRICT
 	ON DELETE RESTRICT
-;
+^_^
 
 
 ALTER TABLE public.st_dict_item
@@ -230,7 +225,7 @@ ALTER TABLE public.st_dict_item
 	REFERENCES public.st_dict (code)
 	ON UPDATE RESTRICT
 	ON DELETE RESTRICT
-;
+^_^
 
 
 ALTER TABLE public.st_group_user
@@ -238,98 +233,95 @@ ALTER TABLE public.st_group_user
 	REFERENCES public.st_group (id)
 	ON UPDATE RESTRICT
 	ON DELETE RESTRICT
-;
-
-
-ALTER TABLE public.st_role_user
-	ADD CONSTRAINT agv_role_user_role_id_fkey FOREIGN KEY (role_id)
-	REFERENCES public.st_role (id)
-	ON UPDATE RESTRICT
-	ON DELETE RESTRICT
-;
+^_^
 
 
 ALTER TABLE public.st_role_operation
-	ADD CONSTRAINT agv_role_operation_role_id_fkey FOREIGN KEY (role_id)
+	ADD CONSTRAINT st_role_operation_fkey FOREIGN KEY (role_id)
 	REFERENCES public.st_role (id)
 	ON UPDATE RESTRICT
 	ON DELETE RESTRICT
-;
-
-
-ALTER TABLE public.st_group_user
-	ADD CONSTRAINT agv_group_re_user_user_id_fkey FOREIGN KEY (user_id)
-	REFERENCES public.st_user (id)
-	ON UPDATE RESTRICT
-	ON DELETE RESTRICT
-;
+^_^
 
 
 ALTER TABLE public.st_role_user
-	ADD CONSTRAINT agv_role_user_user_id_fkey FOREIGN KEY (user_id)
+	ADD CONSTRAINT st_role_user_role_id_fkey FOREIGN KEY (role_id)
+	REFERENCES public.st_role (id)
+	ON UPDATE RESTRICT
+	ON DELETE RESTRICT
+^_^
+
+
+ALTER TABLE public.st_role_user
+	ADD CONSTRAINT st_role_user_user_id_fkey FOREIGN KEY (user_id)
 	REFERENCES public.st_user (id)
 	ON UPDATE RESTRICT
 	ON DELETE RESTRICT
-;
+^_^
+
+
+ALTER TABLE public.st_group_user
+	ADD CONSTRAINT st_group_re_user_user_id_fkey FOREIGN KEY (user_id)
+	REFERENCES public.st_user (id)
+	ON UPDATE RESTRICT
+	ON DELETE RESTRICT
+^_^
 
 
 
-/* Comments */
+-- Comments 
 
-COMMENT ON COLUMN public.st_config.code IS '类的属性名';
-COMMENT ON COLUMN public.st_config.class_code IS '类名';
-COMMENT ON COLUMN public.st_config.value IS '值';
-COMMENT ON COLUMN public.st_data_filter.id IS '数据过滤器';
-COMMENT ON COLUMN public.st_data_filter.name IS '名称';
-COMMENT ON COLUMN public.st_data_filter.remark IS '备注';
-COMMENT ON COLUMN public.st_data_filter_item.id IS '表达式id';
-COMMENT ON COLUMN public.st_data_filter_item.prefix_code IS '前缀';
-COMMENT ON COLUMN public.st_data_filter_item.column_code IS '列编码';
-COMMENT ON COLUMN public.st_data_filter_item.compare_symbol IS '操作符';
-COMMENT ON COLUMN public.st_data_filter_item.first_value IS '第一值';
-COMMENT ON COLUMN public.st_data_filter_item.second_value IS '第二值';
-COMMENT ON COLUMN public.st_data_filter_item.suffix_code IS '后缀';
-COMMENT ON COLUMN public.st_data_filter_item.data_type IS '数值类型';
-COMMENT ON COLUMN public.st_data_filter_item.type IS '表达式类型';
-COMMENT ON COLUMN public.st_data_filter_item.sort_no IS '序号';
-COMMENT ON COLUMN public.st_data_filter_item.data_filter_id IS '数据过滤器';
-COMMENT ON COLUMN public.st_enum_value.data_filter_item_id IS '表达式id';
-COMMENT ON COLUMN public.st_group.id IS '群组id';
-COMMENT ON COLUMN public.st_group.parent_id IS '父群组id';
-COMMENT ON COLUMN public.st_group.code IS '群组编码';
-COMMENT ON COLUMN public.st_group.name IS '群组名称';
-COMMENT ON COLUMN public.st_group.is_leaf IS '是否叶子节点';
-COMMENT ON COLUMN public.st_group.sort_no IS '序号';
-COMMENT ON COLUMN public.st_group.type IS '组织类型';
-COMMENT ON COLUMN public.st_group.logic_deleted IS '逻辑删除';
-COMMENT ON COLUMN public.st_group_user.id IS 'id';
-COMMENT ON COLUMN public.st_group_user.user_id IS '用户Id';
-COMMENT ON COLUMN public.st_group_user.group_id IS '群组id';
-COMMENT ON COLUMN public.st_group_user.is_default IS '是否默认群组';
-COMMENT ON COLUMN public.st_group_user.sort_no IS '序号';
-COMMENT ON COLUMN public.st_role.id IS '角色Id';
-COMMENT ON COLUMN public.st_role.name IS '角色名称';
-COMMENT ON COLUMN public.st_role.enabled IS '是否启用';
-COMMENT ON COLUMN public.st_role.sort_no IS '序号';
-COMMENT ON COLUMN public.st_role_operation.id IS '主键';
-COMMENT ON COLUMN public.st_role_operation.role_id IS '角色Id';
-COMMENT ON COLUMN public.st_role_operation.operation_code IS '操作代码';
-COMMENT ON COLUMN public.st_role_operation.data_filter_id IS '数据集合Id';
-COMMENT ON COLUMN public.st_role_user.user_id IS '用户Id';
-COMMENT ON COLUMN public.st_role_user.role_id IS '角色Id';
-COMMENT ON COLUMN public.st_user.id IS '用户Id';
-COMMENT ON COLUMN public.st_user.account IS '账户';
-COMMENT ON COLUMN public.st_user.password IS '密码';
-COMMENT ON COLUMN public.st_user.name IS '用户名';
-COMMENT ON COLUMN public.st_user.phone IS '手机号码';
-COMMENT ON COLUMN public.st_user.email IS '电子邮箱';
-COMMENT ON COLUMN public.st_user.enabled IS '是否可用';
-COMMENT ON COLUMN public.st_user.logic_deleted IS '是否删除';
+COMMENT ON COLUMN public.st_config.code IS '类的属性名'^_^
+COMMENT ON COLUMN public.st_config.value IS '值'^_^
+COMMENT ON COLUMN public.st_data_filter.id IS '数据过滤器'^_^
+COMMENT ON COLUMN public.st_data_filter.name IS '名称'^_^
+COMMENT ON COLUMN public.st_data_filter.remark IS '备注'^_^
+COMMENT ON COLUMN public.st_data_filter_item.id IS '表达式id'^_^
+COMMENT ON COLUMN public.st_data_filter_item.prefix_code IS '前缀'^_^
+COMMENT ON COLUMN public.st_data_filter_item.column_code IS '列编码'^_^
+COMMENT ON COLUMN public.st_data_filter_item.compare_symbol IS '操作符'^_^
+COMMENT ON COLUMN public.st_data_filter_item.first_value IS '第一值'^_^
+COMMENT ON COLUMN public.st_data_filter_item.second_value IS '第二值'^_^
+COMMENT ON COLUMN public.st_data_filter_item.suffix_code IS '后缀'^_^
+COMMENT ON COLUMN public.st_data_filter_item.data_type IS '数值类型'^_^
+COMMENT ON COLUMN public.st_data_filter_item.type IS '表达式类型'^_^
+COMMENT ON COLUMN public.st_data_filter_item.sort_no IS '序号'^_^
+COMMENT ON COLUMN public.st_data_filter_item.data_filter_id IS '数据过滤器'^_^
+COMMENT ON COLUMN public.st_enum_value.data_filter_item_id IS '表达式id'^_^
+COMMENT ON COLUMN public.st_group.id IS '群组id'^_^
+COMMENT ON COLUMN public.st_group.parent_id IS '父群组id'^_^
+COMMENT ON COLUMN public.st_group.code IS '群组编码'^_^
+COMMENT ON COLUMN public.st_group.name IS '群组名称'^_^
+COMMENT ON COLUMN public.st_group.is_leaf IS '是否叶子节点'^_^
+COMMENT ON COLUMN public.st_group.sort_no IS '序号'^_^
+COMMENT ON COLUMN public.st_group.type IS '组织类型'^_^
+COMMENT ON COLUMN public.st_group.logic_deleted IS '逻辑删除'^_^
+COMMENT ON COLUMN public.st_group_user.id IS 'id'^_^
+COMMENT ON COLUMN public.st_group_user.user_id IS '用户Id'^_^
+COMMENT ON COLUMN public.st_group_user.group_id IS '群组id'^_^
+COMMENT ON COLUMN public.st_group_user.is_default IS '是否默认群组'^_^
+COMMENT ON COLUMN public.st_group_user.sort_no IS '序号'^_^
+COMMENT ON COLUMN public.st_role.id IS '角色Id'^_^
+COMMENT ON COLUMN public.st_role.name IS '角色名称'^_^
+COMMENT ON COLUMN public.st_role.enabled IS '是否启用'^_^
+COMMENT ON COLUMN public.st_role.sort_no IS '序号'^_^
+COMMENT ON COLUMN public.st_role_operation.id IS '主键'^_^
+COMMENT ON COLUMN public.st_role_operation.role_id IS '角色Id'^_^
+COMMENT ON COLUMN public.st_role_operation.operation_code IS '操作代码'^_^
+COMMENT ON COLUMN public.st_role_operation.data_filter_id IS '数据集合Id'^_^
+COMMENT ON COLUMN public.st_role_user.user_id IS '用户Id'^_^
+COMMENT ON COLUMN public.st_role_user.role_id IS '角色Id'^_^
+COMMENT ON COLUMN public.st_user.id IS '用户Id'^_^
+COMMENT ON COLUMN public.st_user.account IS '账户'^_^
+COMMENT ON COLUMN public.st_user.password IS '密码'^_^
+COMMENT ON COLUMN public.st_user.name IS '用户名'^_^
+COMMENT ON COLUMN public.st_user.phone IS '手机号码'^_^
+COMMENT ON COLUMN public.st_user.email IS '电子邮箱'^_^
+COMMENT ON COLUMN public.st_user.enabled IS '是否可用'^_^
+COMMENT ON COLUMN public.st_user.logic_deleted IS '是否删除'^_^
 
-
-/**
- * 获得树的路径函数
- */
+--end--create
+--获得树的路径函数 
 CREATE OR REPLACE FUNCTION get_path (
   current_id integer,
   table_name varchar
@@ -359,4 +351,7 @@ VOLATILE
 CALLED ON NULL INPUT
 SECURITY INVOKER
 COST 100;
+^_^
+
+
 
