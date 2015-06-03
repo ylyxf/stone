@@ -258,7 +258,7 @@ BEGIN
 	SELECT SEQ_st_data_filter_id.nextval
 	INTO :new.id
 	FROM dual;
-END^_^
+END;^_^
 
 
 CREATE OR REPLACE TRIGGER TRI_st_data_filter_item_id BEFORE INSERT ON st_data_filter_item
@@ -267,7 +267,7 @@ BEGIN
 	SELECT SEQ_st_data_filter_item_id.nextval
 	INTO :new.id
 	FROM dual;
-END^_^
+END;^_^
 
 
 CREATE OR REPLACE TRIGGER TRI_st_dict_item_id BEFORE INSERT ON st_dict_item
@@ -276,7 +276,7 @@ BEGIN
 	SELECT SEQ_st_dict_item_id.nextval
 	INTO :new.id
 	FROM dual;
-END^_^
+END;^_^
 
 
 CREATE OR REPLACE TRIGGER TRI_st_enum_value_id BEFORE INSERT ON st_enum_value
@@ -285,7 +285,7 @@ BEGIN
 	SELECT SEQ_st_enum_value_id.nextval
 	INTO :new.id
 	FROM dual;
-END^_^
+END;^_^
 
 
 CREATE OR REPLACE TRIGGER TRI_st_group_id BEFORE INSERT ON st_group
@@ -294,7 +294,7 @@ BEGIN
 	SELECT SEQ_st_group_id.nextval
 	INTO :new.id
 	FROM dual;
-END^_^
+END;^_^
 
 
 CREATE OR REPLACE TRIGGER TRI_st_group_user_id BEFORE INSERT ON st_group_user
@@ -303,7 +303,7 @@ BEGIN
 	SELECT SEQ_st_group_user_id.nextval
 	INTO :new.id
 	FROM dual;
-END^_^
+END;^_^
 
 
 CREATE OR REPLACE TRIGGER TRI_st_role_id BEFORE INSERT ON st_role
@@ -312,7 +312,7 @@ BEGIN
 	SELECT SEQ_st_role_id.nextval
 	INTO :new.id
 	FROM dual;
-END^_^
+END;^_^
 
 
 CREATE OR REPLACE TRIGGER TRI_st_role_operation_id BEFORE INSERT ON st_role_operation
@@ -321,7 +321,7 @@ BEGIN
 	SELECT SEQ_st_role_operation_id.nextval
 	INTO :new.id
 	FROM dual;
-END^_^
+END;^_^
 
 
 CREATE OR REPLACE TRIGGER TRI_st_role_user_id BEFORE INSERT ON st_role_user
@@ -330,7 +330,7 @@ BEGIN
 	SELECT SEQ_st_role_user_id.nextval
 	INTO :new.id
 	FROM dual;
-END^_^
+END;^_^
 
 
 CREATE OR REPLACE TRIGGER TRI_st_user_id BEFORE INSERT ON st_user
@@ -339,7 +339,7 @@ BEGIN
 	SELECT SEQ_st_user_id.nextval
 	INTO :new.id
 	FROM dual;
-END^_^
+END;^_^
 
 
 
