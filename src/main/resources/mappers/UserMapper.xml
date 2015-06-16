@@ -7,6 +7,7 @@ INSERT INTO st_user (
 	account ,
 	password ,
 	name ,
+	type ,
 	phone ,
 	email ,
 	enabled ,
@@ -15,6 +16,34 @@ INSERT INTO st_user (
 	#{account ,jdbcType=VARCHAR },
 	#{password ,jdbcType=VARCHAR },
 	#{name ,jdbcType=VARCHAR },
+	#{type ,jdbcType=VARCHAR },
+	#{phone ,jdbcType=VARCHAR },
+	#{email ,jdbcType=VARCHAR },
+	#{enabled ,jdbcType=BOOLEAN },
+	#{logicDeleted ,jdbcType=BOOLEAN }
+)
+</insert>
+
+<insert id="insert" parameterType="org.siqisource.stone.user.model.User" databaseId="Oracle">
+<selectKey keyProperty="id" resultType="int" order="BEFORE">
+	select  SEQ_st_user_id.nextval from dual
+</selectKey>
+INSERT INTO st_user (
+	id,
+	account ,
+	password ,
+	name ,
+	type ,
+	phone ,
+	email ,
+	enabled ,
+	logic_deleted 
+) VALUES (
+	#{id ,jdbcType=NUMERIC},
+	#{account ,jdbcType=VARCHAR },
+	#{password ,jdbcType=VARCHAR },
+	#{name ,jdbcType=VARCHAR },
+	#{type ,jdbcType=VARCHAR },
 	#{phone ,jdbcType=VARCHAR },
 	#{email ,jdbcType=VARCHAR },
 	#{enabled ,jdbcType=BOOLEAN },
@@ -58,6 +87,7 @@ INSERT INTO st_user (
 	 	account = #{account ,jdbcType=VARCHAR } ,
 	 	password = #{password ,jdbcType=VARCHAR } ,
 	 	name = #{name ,jdbcType=VARCHAR } ,
+	 	type = #{type ,jdbcType=VARCHAR } ,
 	 	phone = #{phone ,jdbcType=VARCHAR } ,
 	 	email = #{email ,jdbcType=VARCHAR } ,
 	 	enabled = #{enabled ,jdbcType=BOOLEAN } ,

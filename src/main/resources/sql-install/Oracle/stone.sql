@@ -1,18 +1,4 @@
 
--- Drop Triggers 
-
-DROP TRIGGER TRI_st_data_filter_id^_^
-DROP TRIGGER TRI_st_data_filter_item_id^_^
-DROP TRIGGER TRI_st_dict_item_id^_^
-DROP TRIGGER TRI_st_enum_value_id^_^
-DROP TRIGGER TRI_st_group_id^_^
-DROP TRIGGER TRI_st_group_user_id^_^
-DROP TRIGGER TRI_st_role_id^_^
-DROP TRIGGER TRI_st_role_operation_id^_^
-DROP TRIGGER TRI_st_role_user_id^_^
-DROP TRIGGER TRI_st_user_id^_^
-
-
 
 -- Drop Tables 
 
@@ -190,6 +176,7 @@ CREATE TABLE st_user
 	account varchar2(64) NOT NULL,
 	password varchar2(256),
 	name varchar2(64),
+	type varchar2(16),
 	phone varchar2(64),
 	email varchar2(64),
 	enabled char,
@@ -247,102 +234,6 @@ ALTER TABLE st_role_user
 	ADD CONSTRAINT st_role_user_user_id_fkey FOREIGN KEY (user_id)
 	REFERENCES st_user (id)
 ^_^
-
-
-
--- Create Triggers 
-
-CREATE OR REPLACE TRIGGER TRI_st_data_filter_id BEFORE INSERT ON st_data_filter
-FOR EACH ROW
-BEGIN
-	SELECT SEQ_st_data_filter_id.nextval
-	INTO :new.id
-	FROM dual;
-END;^_^
-
-
-CREATE OR REPLACE TRIGGER TRI_st_data_filter_item_id BEFORE INSERT ON st_data_filter_item
-FOR EACH ROW
-BEGIN
-	SELECT SEQ_st_data_filter_item_id.nextval
-	INTO :new.id
-	FROM dual;
-END;^_^
-
-
-CREATE OR REPLACE TRIGGER TRI_st_dict_item_id BEFORE INSERT ON st_dict_item
-FOR EACH ROW
-BEGIN
-	SELECT SEQ_st_dict_item_id.nextval
-	INTO :new.id
-	FROM dual;
-END;^_^
-
-
-CREATE OR REPLACE TRIGGER TRI_st_enum_value_id BEFORE INSERT ON st_enum_value
-FOR EACH ROW
-BEGIN
-	SELECT SEQ_st_enum_value_id.nextval
-	INTO :new.id
-	FROM dual;
-END;^_^
-
-
-CREATE OR REPLACE TRIGGER TRI_st_group_id BEFORE INSERT ON st_group
-FOR EACH ROW
-BEGIN
-	SELECT SEQ_st_group_id.nextval
-	INTO :new.id
-	FROM dual;
-END;^_^
-
-
-CREATE OR REPLACE TRIGGER TRI_st_group_user_id BEFORE INSERT ON st_group_user
-FOR EACH ROW
-BEGIN
-	SELECT SEQ_st_group_user_id.nextval
-	INTO :new.id
-	FROM dual;
-END;^_^
-
-
-CREATE OR REPLACE TRIGGER TRI_st_role_id BEFORE INSERT ON st_role
-FOR EACH ROW
-BEGIN
-	SELECT SEQ_st_role_id.nextval
-	INTO :new.id
-	FROM dual;
-END;^_^
-
-
-CREATE OR REPLACE TRIGGER TRI_st_role_operation_id BEFORE INSERT ON st_role_operation
-FOR EACH ROW
-BEGIN
-	SELECT SEQ_st_role_operation_id.nextval
-	INTO :new.id
-	FROM dual;
-END;^_^
-
-
-CREATE OR REPLACE TRIGGER TRI_st_role_user_id BEFORE INSERT ON st_role_user
-FOR EACH ROW
-BEGIN
-	SELECT SEQ_st_role_user_id.nextval
-	INTO :new.id
-	FROM dual;
-END;^_^
-
-
-CREATE OR REPLACE TRIGGER TRI_st_user_id BEFORE INSERT ON st_user
-FOR EACH ROW
-BEGIN
-	SELECT SEQ_st_user_id.nextval
-	INTO :new.id
-	FROM dual;
-END;^_^
-
-
-
 
 
 -- Comments 

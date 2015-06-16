@@ -22,7 +22,7 @@ public class UserService extends AbstractService<User> {
 
 	@Autowired
 	UserMapper mapper;
-	
+
 	@Autowired
 	GroupUserService groupUserService;
 
@@ -30,12 +30,16 @@ public class UserService extends AbstractService<User> {
 	protected MybatisMapper<User> getMapper() {
 		return this.mapper;
 	}
-	
+
 	public User currentUser() {
 		Subject subject = SecurityUtils.getSubject();
 		String userName = (String) subject.getPrincipal();
+		return this.readUserByAccount(userName);
+	}
+
+	public User readUserByAccount(String account) {
 		SimpleCondition condition = new SimpleCondition();
-		condition.andEqual("account", userName);
+		condition.andEqual("account", account);
 		return this.readOne(condition);
 	}
 
@@ -66,7 +70,7 @@ public class UserService extends AbstractService<User> {
 		defaultCondition.andEqual("groupId", defualtGroupId);
 		groupUserService.updateBatch(defaultFields, defaultCondition);
 	}
-	
+
 	@Transactional
 	public void addUser(User user, Integer defualtGroupId) {
 		// 更新User信息
@@ -79,38 +83,37 @@ public class UserService extends AbstractService<User> {
 		groupUser.setIsDefault(true);
 		groupUserService.insert(groupUser);
 	}
-	
+
 	@Transactional
 	public void deleteUser(Integer userId) {
 		// 删除User信息
-		this.logicDelete(userId); 
+		this.logicDelete(userId);
 		// 增加默认部门
 		SimpleCondition condition = new SimpleCondition();
 		condition.andEqual("userId", userId);
 		groupUserService.deleteBatch(condition);
 	}
-	
+
 	@Transactional
-	public void removeUser(Integer userId,Integer groupId) {
+	public void removeUser(Integer userId, Integer groupId) {
 		SimpleCondition condition = new SimpleCondition();
 		condition.andEqual("userId", userId);
 		condition.andEqual("groupId", groupId);
-		if(groupUserService.count(condition)==1){
+		if (groupUserService.count(condition) == 1) {
 			throw new BusinessException("选中的用户仅存在于当前群组，请使用删除功能删除此用户");
 		}
 		GroupUser groupUser = groupUserService.readOne(condition);
-		if(groupUser.getIsDefault()){
+		if (groupUser.getIsDefault()) {
 			throw new BusinessException("选中用户的当前群组是默认群组，请将默认群组指定为其它群组后再移除");
 		}
 		groupUserService.deleteBatch(condition);
 	}
-	 
-	
-	private void checkUser(User user){
+
+	private void checkUser(User user) {
 		SimpleCondition condition = new SimpleCondition();
 		condition.andEqual("account", user.getAccount());
-		if(this.count(condition)>=1){
-			throw new BusinessException("账号"+user.getAccount()+"已存在");
+		if (this.count(condition) >= 1) {
+			throw new BusinessException("账号" + user.getAccount() + "已存在");
 		}
 	}
 }

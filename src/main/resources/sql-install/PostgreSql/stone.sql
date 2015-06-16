@@ -189,6 +189,8 @@ CREATE TABLE public.st_user
 	password varchar(256),
 	-- 用户名
 	name varchar(64),
+	-- 类型
+	type varchar(16),
 	-- 手机号码
 	phone varchar(64),
 	-- 电子邮箱

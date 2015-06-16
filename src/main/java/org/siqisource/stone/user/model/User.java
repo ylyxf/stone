@@ -16,6 +16,9 @@ public class User {
 
 	/** 用户名 */
 	private java.lang.String name;
+	
+	/** 类型 */
+	private java.lang.String type;
 
 	/** 手机号码 */
 	private java.lang.String phone;
@@ -67,6 +70,15 @@ public class User {
 	public void setName(java.lang.String name) {
 		this.name = name;
 	}
+	
+
+	public java.lang.String getType() {
+		return type;
+	}
+
+	public void setType(java.lang.String type) {
+		this.type = type;
+	}
 
 	public java.lang.String getPhone() {
 		return this.phone;
@@ -114,6 +126,11 @@ public class User {
 
 	public void setGroupUserList(List<GroupUserView> groupUserList) {
 		this.groupUserList = groupUserList;
+	}
+
+	@Override
+	public String toString() {
+		return this.name;
 	}
 
 }
