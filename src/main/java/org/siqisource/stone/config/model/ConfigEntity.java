@@ -20,7 +20,7 @@ public class ConfigEntity {
 	/* 排序 */
 	private java.lang.Integer sortNo;
 	
-	private Boolean encode;
+	private Boolean encode = false;
 	
 	public java.lang.String getClassCode() {
 		return classCode;

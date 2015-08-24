@@ -12,6 +12,21 @@ INSERT INTO st_role_user (
 )
 </insert>
 
+<insert id="insert" parameterType="org.siqisource.stone.role.model.RoleUser" databaseId="Oracle" >
+<selectKey keyProperty="id" resultType="int" order="BEFORE">
+	select  SEQ_st_role_user_id.nextval from dual
+</selectKey>
+INSERT INTO st_role_user (
+	id,
+	user_id ,
+	role_id 
+) VALUES (
+	#{id ,jdbcType=NUMERIC },
+	#{userId ,jdbcType=INTEGER },
+	#{roleId ,jdbcType=INTEGER }
+)
+</insert>
+
 
 <insert id="insertPartitive" parameterType="map">
 	INSERT INTO st_role_user  

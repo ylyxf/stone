@@ -151,7 +151,7 @@ public class ConfigService extends AbstractService<ConfigEntity> {
 			return "";
 		}
 		// 从数据库中找到值，并对Value进行赋值
-		ConfigEntity configEntity = read(code, classCode);
+		ConfigEntity configEntity = this.mapper.readConfigEntity(code, classCode);
 		if (configEntity == null) {
 			configEntity = new ConfigEntity();
 			configEntity.setClassCode(classCode);

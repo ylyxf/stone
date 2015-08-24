@@ -1,27 +1,20 @@
 package org.siqisource.stone.ui;
 
-public class AjaxResponse extends Notify {
+public class AjaxResponse {
+
+	public AjaxResponse(Object data) {
+		this.type = "success";
+		this.data = data;
+	}
+
+	public AjaxResponse(String type, Object data) {
+		this.type = type;
+		this.data = data;
+	}
 
 	private Object data;
-	
-	public AjaxResponse(String message) {
-		super(message);
-	}
 
-	public AjaxResponse(String message, Object data) {
-		super(message);
-		this.data = data;
-	}
-
-	public AjaxResponse(String title, String message, Object data) {
-		super(message, title);
-		this.data = data;
-	}
-
-	public AjaxResponse(String type, String message, String title, Object data) {
-		super(type, message, title);
-		this.data = data;
-	}
+	private String type;
 
 	public Object getData() {
 		return data;
@@ -29,6 +22,14 @@ public class AjaxResponse extends Notify {
 
 	public void setData(Object data) {
 		this.data = data;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 }
