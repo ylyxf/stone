@@ -42,4 +42,5 @@ public class DictService extends AbstractService<Dict> {
 			dictItemService.deleteBatch(condition);
 		}
 	}
+
 }

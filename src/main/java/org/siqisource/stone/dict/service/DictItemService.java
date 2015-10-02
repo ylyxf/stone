@@ -1,8 +1,11 @@
 package org.siqisource.stone.dict.service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.siqisource.stone.dict.mapper.DictItemMapper;
@@ -26,14 +29,32 @@ public class DictItemService extends AbstractService<DictItem> {
 		return this.mapper;
 	}
 
+	private Map<String, Dictable> dictableServiceMap = new HashMap<String, Dictable>();
+
+	protected void addDict(Dictable dictableService) {
+		this.dictableServiceMap.put(dictableService.getDictName(),
+				dictableService);
+	}
+
 	public List<DictItem> getDictItemList(String dictCode) {
 		return this.getDictItemList(dictCode, null);
 	}
 
 	public List<DictItem> getDictItemList(String dictCode, String filter) {
-		SimpleCondition condition = new SimpleCondition();
-		condition.andEqual("dictCode", dictCode);
-		List<DictItem> dictItemList = this.list(condition);
+		Dictable dictable = dictableServiceMap.get(dictCode);
+		List<DictItem> dictItemList = null;
+		if (dictable != null) {
+			dictItemList = dictable.getDictItemList();
+		} else {
+			SimpleCondition condition = new SimpleCondition();
+			condition.andEqual("dictCode", dictCode);
+			dictItemList = this.list(condition);
+		}
+		
+		if(dictItemList == null){
+			return new ArrayList<DictItem>(0);
+		}
+
 		if (StringUtils.isNotBlank(filter)) {
 
 			List<String> dictCodes = Arrays.asList(filter.split(","));
