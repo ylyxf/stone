@@ -2,7 +2,7 @@ package org.siqisource.stone.exceptions;
 
 import java.util.UUID;
 
-import org.siqisource.stone.notice.Notice;
+import org.siqisource.stone.web.Notice;
 
 public class BusinessException extends RuntimeException implements Notice {
 
@@ -16,7 +16,7 @@ public class BusinessException extends RuntimeException implements Notice {
 
 	private String icon;
 
-	private String type;
+	private String type = "exception";
 
 	private Object data;
 

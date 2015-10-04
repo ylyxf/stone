@@ -1,4 +1,4 @@
-package org.siqisource.stone.notice;
+package org.siqisource.stone.web;
 
 import java.util.UUID;
 
