@@ -33,8 +33,13 @@ public class UserService extends AbstractService<User> {
 
 	public User currentUser() {
 		Subject subject = SecurityUtils.getSubject();
-		String userName = (String) subject.getPrincipal();
-		return this.readUserByAccount(userName);
+		Object principal = subject.getPrincipal();
+		if (principal instanceof User) {
+			return (User) principal;
+		} else {
+			String userName = (String) subject.getPrincipal();
+			return this.readUserByAccount(userName);
+		}
 	}
 
 	public User readUserByAccount(String account) {

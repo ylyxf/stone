@@ -1,6 +1,8 @@
 package org.siqisource.stone.ui;
 
-public class AjaxResponse {
+import org.siqisource.stone.notice.SimpleNotice;
+
+public class AjaxResponse extends SimpleNotice{
 
 	public AjaxResponse(Object data) {
 		this.type = "success";
@@ -12,24 +14,5 @@ public class AjaxResponse {
 		this.data = data;
 	}
 
-	private Object data;
-
-	private String type;
-
-	public Object getData() {
-		return data;
-	}
-
-	public void setData(Object data) {
-		this.data = data;
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
 
 }
