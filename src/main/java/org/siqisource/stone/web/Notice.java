@@ -12,9 +12,9 @@ public interface Notice {
 
 	public void setTitle(String title);
 
-	public String getContent();
+	public String getMessage();
 
-	public void setContent(String content);
+	public void setMessage(String message);
 
 	public String getIcon();
 

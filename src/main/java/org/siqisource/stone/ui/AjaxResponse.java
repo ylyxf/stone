@@ -4,13 +4,13 @@ import java.util.UUID;
 
 import org.siqisource.stone.web.Notice;
 
-public class AjaxResponse implements Notice{
-	
+public class AjaxResponse implements Notice {
+
 	protected UUID id = UUID.randomUUID();
 
 	protected String title;
 
-	protected String content;
+	protected String message;
 
 	protected String icon;
 
@@ -44,12 +44,12 @@ public class AjaxResponse implements Notice{
 		this.title = title;
 	}
 
-	public String getContent() {
-		return content;
+	public String getMessage() {
+		return message;
 	}
 
-	public void setContent(String content) {
-		this.content = content;
+	public void setMessage(String message) {
+		this.message = message;
 	}
 
 	public String getIcon() {
@@ -75,6 +75,5 @@ public class AjaxResponse implements Notice{
 	public void setData(Object data) {
 		this.data = data;
 	}
-	
 
 }

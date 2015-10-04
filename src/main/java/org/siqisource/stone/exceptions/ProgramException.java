@@ -4,15 +4,15 @@ import java.util.UUID;
 
 import org.siqisource.stone.web.Notice;
 
-public class ProgramException extends RuntimeException implements Notice{
+public class ProgramException extends RuntimeException implements Notice {
 
 	private static final long serialVersionUID = 2708738976919630722L;
-	
+
 	private UUID id = UUID.randomUUID();
 
 	private String title = "系统异常";
 
-	private String content;
+	private String message;
 
 	private String icon;
 
@@ -26,17 +26,17 @@ public class ProgramException extends RuntimeException implements Notice{
 
 	public ProgramException(String message, Throwable cause) {
 		super(message, cause);
-		this.content=message;
+		this.message = message;
 	}
 
 	public ProgramException(String message) {
 		super(message);
-		this.content=message;
+		this.message = message;
 	}
 
 	public ProgramException(Throwable cause) {
 		super(cause);
-		this.content=cause.getMessage();
+		this.message = cause.getMessage();
 	}
 
 	public UUID getId() {
@@ -55,12 +55,12 @@ public class ProgramException extends RuntimeException implements Notice{
 		this.title = title;
 	}
 
-	public String getContent() {
-		return content;
+	public String getMessage() {
+		return message;
 	}
 
-	public void setContent(String content) {
-		this.content = content;
+	public void setMessage(String message) {
+		this.message = message;
 	}
 
 	public String getIcon() {

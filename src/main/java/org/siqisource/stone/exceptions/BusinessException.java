@@ -12,7 +12,7 @@ public class BusinessException extends RuntimeException implements Notice {
 
 	private String title = "业务异常";
 
-	private String content;
+	private String message;
 
 	private String icon;
 
@@ -26,23 +26,23 @@ public class BusinessException extends RuntimeException implements Notice {
 
 	public BusinessException(String message, Throwable cause) {
 		super(message, cause);
-		this.content = message;
+		this.message = message;
 	}
 
 	public BusinessException(String message) {
 		super(message);
-		this.content = message;
+		this.message = message;
 	}
 
 	public BusinessException(String message, Object data) {
 		super(message);
-		this.content = message;
+		this.message = message;
 		this.data = data;
 	}
 
 	public BusinessException(Throwable cause) {
 		super(cause);
-		this.content = cause.getMessage();
+		this.message = cause.getMessage();
 	}
 
 	public UUID getId() {
@@ -61,12 +61,12 @@ public class BusinessException extends RuntimeException implements Notice {
 		this.title = title;
 	}
 
-	public String getContent() {
-		return content;
+	public String getMessage() {
+		return message;
 	}
 
-	public void setContent(String content) {
-		this.content = content;
+	public void setMessage(String message) {
+		this.message = message;
 	}
 
 	public String getIcon() {
