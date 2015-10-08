@@ -1,6 +1,5 @@
 package org.siqisource.stone.ui.easyui;
 
-
 public class TreeNode {
 
 	public static final String STATA_CLOSE = "closed";
@@ -11,6 +10,8 @@ public class TreeNode {
 	 * An identity value bind to the node.
 	 */
 	private String id;
+
+	private String parentId;
 
 	/**
 	 * Text to be showed.
@@ -30,7 +31,7 @@ public class TreeNode {
 	/**
 	 * Custom attributes bind to the node.
 	 */
-	private Object attributes = "";
+	private Object attributes;
 
 	public String getId() {
 		return id;
@@ -78,6 +79,14 @@ public class TreeNode {
 
 	public void setAttributes(Object attributes) {
 		this.attributes = attributes;
+	}
+
+	public String getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(String parentId) {
+		this.parentId = parentId;
 	}
 	
 }

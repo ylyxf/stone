@@ -40,11 +40,11 @@ public class DictItemService extends AbstractService<DictItem> {
 		return this.getDictItemList(dictCode, null);
 	}
 
-	public List<DictItem> getDictItemList(String dictCode, String filter) {
+	public List<DictItem> getDictItemList(String dictCode, Map<String,Object> dictParams) {
 		Dictable dictable = dictableServiceMap.get(dictCode);
 		List<DictItem> dictItemList = null;
 		if (dictable != null) {
-			dictItemList = dictable.getDictItemList();
+			dictItemList = dictable.getDictItemList(dictParams);
 		} else {
 			SimpleCondition condition = new SimpleCondition();
 			condition.andEqual("dictCode", dictCode);
@@ -54,7 +54,7 @@ public class DictItemService extends AbstractService<DictItem> {
 		if(dictItemList == null){
 			return new ArrayList<DictItem>(0);
 		}
-
+		String filter = (String)dictParams.get("_filter");
 		if (StringUtils.isNotBlank(filter)) {
 
 			List<String> dictCodes = Arrays.asList(filter.split(","));

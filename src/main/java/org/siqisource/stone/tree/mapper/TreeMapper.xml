@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.siqisource.stone.tree.mapper.TreeMapper">
+
+<select id="readNode" parameterType="map" resultType="org.siqisource.stone.tree.model.TreeNodeImpl">
+	SELECT id,parent_id,name,is_leaf,level_no,sort_no,type FROM 
+	${tableName}  
+	WHERE id = #{nodeId}  
+</select>
+
+<select id="countChild" parameterType="map" resultType="int">
+	SELECT count(1) FROM  ${tableName}     
+	WHERE parent_id = #{nodeId} 	
+</select>
+
+<select id="listChildren" parameterType="map" resultType="org.siqisource.stone.tree.model.TreeNodeImpl">
+	SELECT id,parent_id,name,is_leaf,level_no,sort_no,type FROM 
+	${tableName}  
+	WHERE parent_id = #{nodeId} ORDER BY SORT_NO ASC
+</select>
+
+<select id="readParentNode" parameterType="map" resultType="org.siqisource.stone.tree.model.TreeNodeImpl">
+	SELECT id,parent_id,name,is_leaf,level_no,sort_no,type FROM 
+	${tableName}  
+	WHERE id = (select parent_id from ${tableName} where node_id = #{nodeId} )  
+</select>
+
+<select id="readChildrenMaxSortNo" parameterType="map" resultType="int">
+	SELECT max(sort_no)  FROM 
+	${tableName}  
+	WHERE parent_id = #{parentId}   
+</select>
+	  
+<update id="updateIsLeaf" parameterType="map">
+	UPDATE ${tableName}  SET 
+	 	is_leaf = #{isLeaf ,jdbcType=CHAR }
+	WHERE 
+		id = #{nodeId}
+</update>
+
+<update id="updateLevelNo" parameterType="map">
+	UPDATE ${tableName}  SET 
+	 	level_no = #{levelNo ,jdbcType=NUMERIC }
+	WHERE 
+		id = #{nodeId}
+</update>
+
+<update id="updateSortlNo" parameterType="map">
+	UPDATE ${tableName}  SET 
+	 	sort_no = #{sortNo ,jdbcType=NUMERIC }
+	WHERE 
+		id = #{nodeId}
+</update>
+
+<update id="updateOldBrotherSortlNo" parameterType="map">
+	UPDATE ${tableName}  SET 
+	 	sort_no = sort_no + #{step ,jdbcType=NUMERIC }
+	WHERE 
+		paernt_id = #{parentId}
+	AND sort_no > #{sortNo}
+</update>
+
+<update id="updateChildrenLevelNo" parameterType="map">
+	UPDATE ${tableName}  SET 
+	 	level_no = #{levelNo ,jdbcType=NUMERIC }
+	WHERE 
+		paernt_id = #{parentId}
+</update>
+ 
+
+<delete id="delete" parameterType="map" >
+	DELETE FROM  ${tableName}   
+	WHERE 
+	id = #{nodeId}
+</delete>
+ 
+	
+</mapper>
