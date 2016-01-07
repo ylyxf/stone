@@ -20,7 +20,7 @@ public class TreeService {
 
 	@Autowired
 	TreeMapper mapper;
-	
+
 	@Autowired
 	SortService service;
 
@@ -33,11 +33,13 @@ public class TreeService {
 	}
 
 	public List<TreeNode> listAllChildren(Integer nodeId, String tableName) {
+		List<TreeNode> result = new ArrayList<TreeNode>();
 		List<TreeNode> children = this.listChildren(nodeId, tableName);
 		for (TreeNode treeNode : children) {
-			children.addAll(this.listAllChildren(treeNode.getId(), tableName));
+			result.addAll(this.listAllChildren(treeNode.getId(), tableName));
 		}
-		return children;
+		result.addAll(children);
+		return result;
 	}
 
 	public void deleteAllChildren(Integer nodeId, String tableName) {
@@ -70,8 +72,8 @@ public class TreeService {
 		deleteAllChildren(nodeId, tableName);
 	}
 
-	public void updateNode(TreeNode node, String tableName) {
-		this.updateNode(node, null, tableName);
+	public void addNode(TreeNode node, String tableName) {
+		this.addNode(node, null, tableName);
 	}
 
 	/**
@@ -79,7 +81,7 @@ public class TreeService {
 	 * @param node
 	 * @param beforeNodeId
 	 */
-	public void updateNode(TreeNode node, Integer beforeNodeId, String tableName) {
+	public void addNode(TreeNode node, Integer beforeNodeId, String tableName) {
 		Integer parentNodeId = node.getParentId();
 		Integer nodeId = node.getId();
 		// 设置sortNo

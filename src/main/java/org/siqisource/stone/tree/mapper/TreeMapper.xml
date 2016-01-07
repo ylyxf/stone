@@ -45,7 +45,7 @@
 		id = #{nodeId}
 </update>
 
-<update id="updateSortlNo" parameterType="map">
+<update id="updateSortNo" parameterType="map">
 	UPDATE ${tableName}  SET 
 	 	sort_no = #{sortNo ,jdbcType=NUMERIC }
 	WHERE 

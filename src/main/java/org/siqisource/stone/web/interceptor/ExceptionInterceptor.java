@@ -18,11 +18,7 @@ public class ExceptionInterceptor implements HandlerExceptionResolver {
 	@Override
 	public ModelAndView resolveException(HttpServletRequest request,
 			HttpServletResponse response, Object handler, Exception ex) {
-		logger.error(ex.getMessage());
-		ex.printStackTrace();
-		if (logger.isDebugEnabled()) {
-			ex.printStackTrace();
-		}
+		logger.error("error:",ex);
 		ModelAndView mv = new ModelAndView("error/Error");
 		
 		//向前台传递Notice

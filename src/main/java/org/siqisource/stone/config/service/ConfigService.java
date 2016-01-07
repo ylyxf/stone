@@ -129,8 +129,10 @@ public class ConfigService extends AbstractService<ConfigEntity> {
 								field.setAccessible(true);
 								String code = field.getName();
 								String value = readConfigValue(code, classCode);
-								ReflectionUtils.setField(field, bean,
-										getTypedValue(field, value));
+								if(value!=null){
+									ReflectionUtils.setField(field, bean,
+											getTypedValue(field, value));
+								}
 							}
 						}
 

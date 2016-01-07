@@ -60,8 +60,10 @@ public class PartitiveFields extends HashMap<String, Object> {
 				}
 
 				if (key.contains("+=")) {
-					String column = NameConverter.propertyToColumn(key.replace("+=", ""));
-					sbUpdateSql.append(column).append(" = ").append(column).append(" + ");
+					String column = NameConverter.propertyToColumn(key.replace(
+							"+=", ""));
+					sbUpdateSql.append(column).append(" = ").append(column)
+							.append(" + ");
 					sbUpdateSql.append("#{fields[");
 					sbUpdateSql.append(StringUtils.trim(key));
 				} else {
@@ -83,4 +85,5 @@ public class PartitiveFields extends HashMap<String, Object> {
 			return Integer.parseInt(this.get(key).toString());
 		}
 	}
+	
 }

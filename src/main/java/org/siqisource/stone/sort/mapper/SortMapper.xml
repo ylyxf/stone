@@ -2,8 +2,33 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.siqisource.stone.sort.mapper.SortMapper">
 
-<select id="readBeforeSortNo" parameterType="map" resultType="int">
+<select id="readSortNo" parameterType="map" resultType="int">
 	SELECT sort_no  FROM  ${tableName} WHERE id = #{id}  
+</select>
+
+<select id="readBeforeId" parameterType="map" resultType="int" databaseId="Oracle">
+select * from (SELECT id FROM ${tableName} WHERE sort_no  &lt;  
+	( select sort_no from ${tableName} WHERE id = #{id}  )  
+	<if test="condition.expressions != null ">
+		 ${condition.comboedExpressions}
+	</if> 
+ORDER BY sort_no DESC) where rownum = 1
+</select>
+
+<select id="readAfterId"  parameterType="map" resultType="int" databaseId="Oracle">
+select * from (SELECT id FROM ${tableName} WHERE sort_no  &gt; 
+	( select sort_no from ${tableName} WHERE id = #{id}  ) 
+	<if test="condition.expressions != null ">
+		 ${condition.comboedExpressions}
+	</if>
+ORDER BY sort_no ASC) where rownum = 1
+</select>
+
+<select id="readMaxSortNo" parameterType="map" resultType="int">
+	SELECT max(sort_no)  FROM  ${tableName}
+	<if test="condition.expressions != null ">
+		<where>${condition.comboedExpressions}</where>
+	</if> 
 </select>
 
 <update id="updateOldBrotherSortlNo" parameterType="map">

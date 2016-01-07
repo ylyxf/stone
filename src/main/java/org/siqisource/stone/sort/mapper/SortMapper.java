@@ -7,7 +7,18 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SortMapper {
 
-	public Integer readBeforeSortNo(@Param("id") Integer beforeId,
+	public Integer readSortNo(@Param("id") Integer id,
+			@Param("tableName") String tableName);
+
+	public Integer readMaxSortNo(@Param("condition") SimpleCondition condition,
+			@Param("tableName") String tableName);
+
+	public Integer readBeforeId(@Param("id") Integer id,
+			@Param("condition") SimpleCondition condition,
+			@Param("tableName") String tableName);
+
+	public Integer readAfterId(@Param("id") Integer id,
+			@Param("condition") SimpleCondition condition,
 			@Param("tableName") String tableName);
 
 	public void updateOldBrotherSortlNo(
@@ -15,7 +26,7 @@ public interface SortMapper {
 			@Param("step") Integer step, @Param("sortNo") Integer beforeSortNo,
 			@Param("tableName") String tableName);
 
-	public void updateSortNo(@Param("id")  Integer id,
+	public void updateSortNo(@Param("id") Integer id,
 			@Param("sortNo") Integer sortNo,
 			@Param("tableName") String tableName);
 
