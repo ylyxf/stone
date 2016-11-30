@@ -1,6 +1,8 @@
 package org.siqisource.stone.datafilter.model;
 
-			
+import org.siqisource.stone.runtime.mapper.annotation.Table;
+
+@Table("st_data_filter_item")			
 public class DataFilterItem {
 
 

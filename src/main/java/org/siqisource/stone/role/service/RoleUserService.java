@@ -3,23 +3,23 @@ package org.siqisource.stone.role.service;
 import java.util.List;
 
 import org.apache.ibatis.session.RowBounds;
-import org.siqisource.stone.orm.MybatisMapper;
-import org.siqisource.stone.orm.condition.Condition;
 import org.siqisource.stone.role.mapper.RoleUserMapper;
 import org.siqisource.stone.role.model.RoleUser;
 import org.siqisource.stone.role.model.RoleUserView;
-import org.siqisource.stone.service.AbstractService;
+import org.siqisource.stone.runtime.mapper.SingleKeyMapper;
+import org.siqisource.stone.runtime.mapper.condition.Condition;
+import org.siqisource.stone.runtime.service.AbstractSingleKeyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class RoleUserService extends AbstractService<RoleUser> {
+public class RoleUserService extends AbstractSingleKeyService<RoleUser,Integer> {
 
 	@Autowired
 	RoleUserMapper mapper;
 
 	@Override
-	protected MybatisMapper<RoleUser> getMapper() {
+	protected SingleKeyMapper<RoleUser,Integer> getMapper() {
 		return this.mapper;
 	}
 

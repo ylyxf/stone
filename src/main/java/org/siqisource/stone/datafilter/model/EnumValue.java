@@ -1,6 +1,8 @@
 package org.siqisource.stone.datafilter.model;
 
-			
+import org.siqisource.stone.runtime.mapper.annotation.Table;
+
+@Table("st_enum_value")	
 public class EnumValue {
 
 

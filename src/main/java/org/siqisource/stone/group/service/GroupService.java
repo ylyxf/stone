@@ -5,25 +5,25 @@ import java.util.List;
 
 import org.siqisource.stone.group.mapper.GroupMapper;
 import org.siqisource.stone.group.model.Group;
-import org.siqisource.stone.orm.MybatisMapper;
-import org.siqisource.stone.orm.PartitiveFields;
-import org.siqisource.stone.orm.SqlKey;
-import org.siqisource.stone.orm.condition.Condition;
-import org.siqisource.stone.orm.condition.SimpleCondition;
-import org.siqisource.stone.service.AbstractService;
-import org.siqisource.stone.ui.easyui.TreeNode;
+import org.siqisource.stone.runtime.mapper.SingleKeyMapper;
+import org.siqisource.stone.runtime.mapper.condition.Condition;
+import org.siqisource.stone.runtime.mapper.condition.PartitiveFields;
+import org.siqisource.stone.runtime.mapper.condition.SimpleCondition;
+import org.siqisource.stone.runtime.mapper.condition.SqlKey;
+import org.siqisource.stone.runtime.service.AbstractSingleKeyService;
+import org.siqisource.stone.runtime.ui.easyui.TreeNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class GroupService extends AbstractService<Group> {
+public class GroupService extends AbstractSingleKeyService<Group, Integer> {
 
 	@Autowired
 	GroupMapper mapper;
 
 	@Override
-	protected MybatisMapper<Group> getMapper() {
+	protected SingleKeyMapper<Group, Integer> getMapper() {
 		return this.mapper;
 	}
 
@@ -59,10 +59,10 @@ public class GroupService extends AbstractService<Group> {
 		fields.put("isLeaf", false);
 		this.updatePartitive(fields, parentId);
 	}
-	
+
 	@Override
 	@Transactional
-	public void logicDelete(Object... id) {
+	public void logicDelete(Integer id) {
 		super.logicDelete(id);
 
 		Group group = this.read(id);

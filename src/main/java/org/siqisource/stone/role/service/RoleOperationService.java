@@ -2,19 +2,19 @@ package org.siqisource.stone.role.service;
 
 import java.util.List;
 
-import org.siqisource.stone.orm.MybatisMapper;
-import org.siqisource.stone.orm.condition.SimpleCondition;
-import org.siqisource.stone.permission.model.PermissionClassEntity;
-import org.siqisource.stone.permission.model.PermissionEntity;
-import org.siqisource.stone.permission.service.PermissionService;
 import org.siqisource.stone.role.mapper.RoleOperationMapper;
 import org.siqisource.stone.role.model.RoleOperation;
-import org.siqisource.stone.service.AbstractService;
+import org.siqisource.stone.runtime.mapper.SingleKeyMapper;
+import org.siqisource.stone.runtime.mapper.condition.SimpleCondition;
+import org.siqisource.stone.runtime.permission.model.PermissionClassEntity;
+import org.siqisource.stone.runtime.permission.model.PermissionEntity;
+import org.siqisource.stone.runtime.permission.service.PermissionService;
+import org.siqisource.stone.runtime.service.AbstractSingleKeyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class RoleOperationService extends AbstractService<RoleOperation> {
+public class RoleOperationService extends AbstractSingleKeyService<RoleOperation,Integer> {
 
 	@Autowired
 	RoleOperationMapper mapper;
@@ -23,7 +23,7 @@ public class RoleOperationService extends AbstractService<RoleOperation> {
 	PermissionService permissionService;
 
 	@Override
-	protected MybatisMapper<RoleOperation> getMapper() {
+	protected SingleKeyMapper<RoleOperation,Integer> getMapper() {
 		return this.mapper;
 	}
 
@@ -58,7 +58,7 @@ public class RoleOperationService extends AbstractService<RoleOperation> {
 		SimpleCondition simpleCondition = new SimpleCondition();
 		simpleCondition.andEqual("roleId", roleId);
 		simpleCondition.andEqual("operationCode", operationCode);
-		this.deleteBatch(simpleCondition);
+		this.delete(simpleCondition);
 	}
 
 	public List<RoleOperation> listOperation(Integer userId,

@@ -15,35 +15,35 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Resource;
 import javax.sql.DataSource;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.codec.Base64;
 import org.siqisource.stone.config.annotation.Config;
 import org.siqisource.stone.config.mapper.ConfigMapper;
 import org.siqisource.stone.config.model.ConfigClassEntity;
 import org.siqisource.stone.config.model.ConfigEntity;
-import org.siqisource.stone.exceptions.ProgramException;
-import org.siqisource.stone.orm.MybatisMapper;
-import org.siqisource.stone.orm.PartitiveFields;
-import org.siqisource.stone.service.AbstractService;
+import org.siqisource.stone.runtime.exceptions.ProgramException;
+import org.siqisource.stone.runtime.mapper.GeneralMapper;
+import org.siqisource.stone.runtime.mapper.condition.PartitiveFields;
+import org.siqisource.stone.runtime.mapper.condition.SimpleCondition;
+import org.siqisource.stone.runtime.service.AbstractGeneralService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ReflectionUtils;
 
 @Service
-public class ConfigService extends AbstractService<ConfigEntity> {
+public class ConfigService extends AbstractGeneralService<ConfigEntity> {
 
 	@Autowired
 	ConfigMapper mapper;
 
-	@Resource(name = "${dataSource.name}")
+	@Autowired
 	DataSource dataSource;
 
 	@Override
-	protected MybatisMapper<ConfigEntity> getMapper() {
+	protected GeneralMapper<ConfigEntity> getMapper() {
 		return this.mapper;
 	}
 
@@ -87,8 +87,7 @@ public class ConfigService extends AbstractService<ConfigEntity> {
 	 * @return
 	 */
 	public ConfigClassEntity readConfigClassEntity(String classCode) {
-		ConfigClassEntity configClassEntity = configClassEntityMap
-				.get(classCode);
+		ConfigClassEntity configClassEntity = configClassEntityMap.get(classCode);
 		this.readConfigClassEntityValue(configClassEntity);
 		return configClassEntity;
 	}
@@ -99,8 +98,7 @@ public class ConfigService extends AbstractService<ConfigEntity> {
 	 * @param configClassEntity
 	 */
 	private void readConfigClassEntityValue(ConfigClassEntity configClassEntity) {
-		List<ConfigEntity> configEntityList = configClassEntity
-				.getConfigEntityList();
+		List<ConfigEntity> configEntityList = configClassEntity.getConfigEntityList();
 		for (ConfigEntity configEntity : configEntityList) {
 			String classCode = configEntity.getClassCode();
 			String code = configEntity.getCode();
@@ -116,29 +114,25 @@ public class ConfigService extends AbstractService<ConfigEntity> {
 	public void readConfigBean(final Object bean) {
 		final String classCode = bean.getClass().getName();
 
-		ReflectionUtils.doWithFields(bean.getClass(),
-				new ReflectionUtils.FieldCallback() {
+		ReflectionUtils.doWithFields(bean.getClass(), new ReflectionUtils.FieldCallback() {
 
-					@Override
-					public void doWith(Field field)
-							throws IllegalArgumentException,
-							IllegalAccessException {
+			@Override
+			public void doWith(Field field) throws IllegalArgumentException, IllegalAccessException {
 
-						for (Annotation anno : field.getAnnotations()) {
-							if (anno instanceof Config) {
-								field.setAccessible(true);
-								String code = field.getName();
-								String value = readConfigValue(code, classCode);
-								if(value!=null){
-									ReflectionUtils.setField(field, bean,
-											getTypedValue(field, value));
-								}
-							}
+				for (Annotation anno : field.getAnnotations()) {
+					if (anno instanceof Config) {
+						field.setAccessible(true);
+						String code = field.getName();
+						String value = readConfigValue(code, classCode);
+						if (value != null) {
+							ReflectionUtils.setField(field, bean, getTypedValue(field, value));
 						}
-
 					}
+				}
 
-				});
+			}
+
+		});
 	}
 
 	/**
@@ -197,8 +191,7 @@ public class ConfigService extends AbstractService<ConfigEntity> {
 			try {
 				return formater.parse(value);
 			} catch (ParseException e) {
-				throw new ProgramException("配置项的值：" + value
-						+ ",不是yyyy-MM-dd HH:mm:ss型");
+				throw new ProgramException("配置项的值：" + value + ",不是yyyy-MM-dd HH:mm:ss型");
 			}
 		}
 		throw new ProgramException("不被支持的配置项的类型：" + field.getType() + "。");
@@ -210,8 +203,7 @@ public class ConfigService extends AbstractService<ConfigEntity> {
 	 * @param configClassEntity
 	 */
 	@Transactional
-	public void updateConfigByEntity(String classCode,
-			List<ConfigEntity> configList) {
+	public void updateConfigByEntity(String classCode, List<ConfigEntity> configList) {
 		for (ConfigEntity configEntity : configList) {
 			PartitiveFields fields = new PartitiveFields();
 			String code = configEntity.getCode();
@@ -220,7 +212,10 @@ public class ConfigService extends AbstractService<ConfigEntity> {
 				value = Base64.encodeToString(value.getBytes());
 			}
 			fields.put("value", value);
-			this.updatePartitive(fields, code, classCode);
+			SimpleCondition condition = new SimpleCondition();
+			condition.andEqual("code", code);
+			condition.andEqual("classCode", classCode);
+			this.updatePartitive(fields, condition);
 
 		}
 		// 更新对应的容器中的Bean的值
@@ -234,30 +229,29 @@ public class ConfigService extends AbstractService<ConfigEntity> {
 	 * @param object
 	 */
 	public void updateConfigByBean(final Object object) {
-		ReflectionUtils.doWithFields(object.getClass(),
-				new ReflectionUtils.FieldCallback() {
+		ReflectionUtils.doWithFields(object.getClass(), new ReflectionUtils.FieldCallback() {
 
-					@Override
-					public void doWith(Field field)
-							throws IllegalArgumentException,
-							IllegalAccessException {
-						field.setAccessible(true);
-						String classCode = object.getClass().getName();
-						String code = field.getName();
-						ConfigEntity configEntity = read(code, classCode);
-						if (configEntity != null) {
-							PartitiveFields fields = new PartitiveFields();
-							String value = String.valueOf(field.get(object));
-							if (configEntity.getEncode()
-									&& StringUtils.isNotBlank(value)) {
-								value = Base64.encodeToString(value.getBytes());
-							}
-							fields.put("value", value);
-							updatePartitive(fields, code, classCode);
-						}
+			@Override
+			public void doWith(Field field) throws IllegalArgumentException, IllegalAccessException {
+				field.setAccessible(true);
+				String classCode = object.getClass().getName();
+				String code = field.getName();
+				SimpleCondition condition = new SimpleCondition();
+				condition.andEqual("code", code);
+				condition.andEqual("classCode", classCode);
+				ConfigEntity configEntity = readOne(condition);
+				if (configEntity != null) {
+					PartitiveFields fields = new PartitiveFields();
+					String value = String.valueOf(field.get(object));
+					if (configEntity.getEncode() && StringUtils.isNotBlank(value)) {
+						value = Base64.encodeToString(value.getBytes());
 					}
+					fields.put("value", value);
+					updatePartitive(fields, condition);
+				}
+			}
 
-				});
+		});
 	}
 
 	private boolean checkConnection() {

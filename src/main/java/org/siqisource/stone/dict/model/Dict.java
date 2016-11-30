@@ -1,6 +1,8 @@
 package org.siqisource.stone.dict.model;
 
-			
+import org.siqisource.stone.runtime.mapper.annotation.Table;
+
+@Table("st_dict")			
 public class Dict {
 
 	/**/

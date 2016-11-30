@@ -7,25 +7,25 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.siqisource.stone.dict.mapper.DictItemMapper;
 import org.siqisource.stone.dict.model.DictItem;
-import org.siqisource.stone.orm.MybatisMapper;
-import org.siqisource.stone.orm.condition.SimpleCondition;
-import org.siqisource.stone.service.AbstractService;
-import org.siqisource.stone.web.jspservice.JspService;
+import org.siqisource.stone.runtime.mapper.SingleKeyMapper;
+import org.siqisource.stone.runtime.mapper.condition.SimpleCondition;
+import org.siqisource.stone.runtime.service.AbstractSingleKeyService;
+import org.siqisource.stone.runtime.web.jspservice.JspService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 @JspService
-public class DictItemService extends AbstractService<DictItem> {
+public class DictItemService extends AbstractSingleKeyService<DictItem,Integer> {
 
 	@Autowired
 	DictItemMapper mapper;
 
 	@Override
-	protected MybatisMapper<DictItem> getMapper() {
+	protected SingleKeyMapper<DictItem,Integer> getMapper() {
 		return this.mapper;
 	}
 

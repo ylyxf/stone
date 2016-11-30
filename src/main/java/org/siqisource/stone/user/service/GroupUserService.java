@@ -5,12 +5,12 @@ import java.util.List;
 
 import org.siqisource.stone.group.model.Group;
 import org.siqisource.stone.group.service.GroupService;
-import org.siqisource.stone.orm.MybatisMapper;
-import org.siqisource.stone.orm.SqlKey;
-import org.siqisource.stone.orm.condition.Condition;
-import org.siqisource.stone.orm.condition.SimpleCondition;
-import org.siqisource.stone.service.AbstractService;
-import org.siqisource.stone.ui.easyui.TreeNode;
+import org.siqisource.stone.runtime.mapper.SingleKeyMapper;
+import org.siqisource.stone.runtime.mapper.condition.Condition;
+import org.siqisource.stone.runtime.mapper.condition.SimpleCondition;
+import org.siqisource.stone.runtime.mapper.condition.SqlKey;
+import org.siqisource.stone.runtime.service.AbstractSingleKeyService;
+import org.siqisource.stone.runtime.ui.easyui.TreeNode;
 import org.siqisource.stone.user.mapper.GroupUserMapper;
 import org.siqisource.stone.user.model.GroupUser;
 import org.siqisource.stone.user.model.GroupUserView;
@@ -19,7 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class GroupUserService extends AbstractService<GroupUser> {
+public class GroupUserService extends AbstractSingleKeyService<GroupUser, Integer> {
 
 	@Autowired
 	GroupUserMapper mapper;
@@ -28,7 +28,7 @@ public class GroupUserService extends AbstractService<GroupUser> {
 	GroupService groupService;
 
 	@Override
-	protected MybatisMapper<GroupUser> getMapper() {
+	protected SingleKeyMapper<GroupUser, Integer> getMapper() {
 		return this.mapper;
 	}
 
@@ -40,8 +40,7 @@ public class GroupUserService extends AbstractService<GroupUser> {
 		return this.mapper.listGroupUserByUserId(userId);
 	}
 
-	public List<TreeNode> listGroupUserTreeNode(Condition condition,
-			Integer groupId) {
+	public List<TreeNode> listGroupUserTreeNode(Condition condition, Integer groupId) {
 		List<Group> groupList = groupService.list(condition);
 		List<TreeNode> result = new ArrayList<TreeNode>();
 		for (Group group : groupList) {
@@ -57,7 +56,7 @@ public class GroupUserService extends AbstractService<GroupUser> {
 			TreeNode treeNode = toTreeNode(user);
 			result.add(treeNode);
 		}
-		
+
 		return result;
 	}
 

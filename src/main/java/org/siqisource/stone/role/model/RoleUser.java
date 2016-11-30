@@ -1,6 +1,8 @@
 package org.siqisource.stone.role.model;
 
-			
+import org.siqisource.stone.runtime.mapper.annotation.Table;
+
+@Table("st_role_user")		
 public class RoleUser {
 
 	/**/

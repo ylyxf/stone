@@ -6,22 +6,22 @@ import java.util.List;
 import org.siqisource.stone.datafilter.mapper.DataFilterItemMapper;
 import org.siqisource.stone.datafilter.model.DataFilterItem;
 import org.siqisource.stone.datafilter.model.EnumValue;
-import org.siqisource.stone.exceptions.BusinessException;
-import org.siqisource.stone.orm.MybatisMapper;
-import org.siqisource.stone.orm.condition.SimpleCondition;
-import org.siqisource.stone.orm.expression.SqlCompareExpression;
-import org.siqisource.stone.orm.expression.impl.BetweenExpression;
-import org.siqisource.stone.orm.expression.impl.EnumExpression;
-import org.siqisource.stone.orm.expression.impl.NoValueExpression;
-import org.siqisource.stone.orm.expression.impl.ParenthesisExpression;
-import org.siqisource.stone.orm.expression.impl.SingleExpression;
-import org.siqisource.stone.service.AbstractService;
-import org.siqisource.stone.utils.LiteralValueUtil;
+import org.siqisource.stone.runtime.exceptions.BusinessException;
+import org.siqisource.stone.runtime.mapper.SingleKeyMapper;
+import org.siqisource.stone.runtime.mapper.condition.SimpleCondition;
+import org.siqisource.stone.runtime.mapper.condition.expression.BetweenExpression;
+import org.siqisource.stone.runtime.mapper.condition.expression.CompareExpression;
+import org.siqisource.stone.runtime.mapper.condition.expression.EnumExpression;
+import org.siqisource.stone.runtime.mapper.condition.expression.NoValueExpression;
+import org.siqisource.stone.runtime.mapper.condition.expression.ParenthesisExpression;
+import org.siqisource.stone.runtime.mapper.condition.expression.SingleExpression;
+import org.siqisource.stone.runtime.service.AbstractSingleKeyService;
+import org.siqisource.stone.runtime.utils.LiteralValueUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class DataFilterItemService extends AbstractService<DataFilterItem> {
+public class DataFilterItemService extends AbstractSingleKeyService<DataFilterItem, Integer> {
 
 	@Autowired
 	DataFilterItemMapper mapper;
@@ -30,27 +30,26 @@ public class DataFilterItemService extends AbstractService<DataFilterItem> {
 	EnumValueService enumValueService;
 
 	@Override
-	protected MybatisMapper<DataFilterItem> getMapper() {
+	protected SingleKeyMapper<DataFilterItem, Integer> getMapper() {
 		return this.mapper;
 	}
 
-	public SqlCompareExpression toSqlCompareExpression(
-			DataFilterItem dataFilterItem) {
-		SqlCompareExpression sqlCompareExpression = null;
+	public CompareExpression toSqlCompareExpression(DataFilterItem dataFilterItem) {
+		CompareExpression compareExpression = null;
 		String type = dataFilterItem.getType();
 		if ("between".equals(type)) {
-			sqlCompareExpression = toBetweenExpression(dataFilterItem);
+			compareExpression = toBetweenExpression(dataFilterItem);
 		} else if ("enum".equals(type)) {
-			sqlCompareExpression = toEnumExpression(dataFilterItem);
+			compareExpression = toEnumExpression(dataFilterItem);
 		} else if ("novalue".equals(type)) {
-			sqlCompareExpression = toNoValueExpression(dataFilterItem);
+			compareExpression = toNoValueExpression(dataFilterItem);
 		} else if ("parenthesis".equals(type)) {
-			sqlCompareExpression = toParenthesisExpression(dataFilterItem);
+			compareExpression = toParenthesisExpression(dataFilterItem);
 		} else if ("single".equals(type)) {
-			sqlCompareExpression = toSingleExpression(dataFilterItem);
+			compareExpression = toSingleExpression(dataFilterItem);
 		}
 
-		return sqlCompareExpression;
+		return compareExpression;
 	}
 
 	private BetweenExpression toBetweenExpression(DataFilterItem dataFilterItem) {
@@ -61,14 +60,13 @@ public class DataFilterItemService extends AbstractService<DataFilterItem> {
 		Object endValue = LiteralValueUtil.parse(secondValue, dataType);
 
 		if (beginValue == null || endValue == null) {
-			throw new BusinessException("数据过滤器数据转换错误，dataFilterItem："
-					+ dataFilterItem.getId());
+			throw new BusinessException("数据过滤器数据转换错误，dataFilterItem：" + dataFilterItem.getId());
 		}
 		String prefixCode = dataFilterItem.getPrefixCode();
 		String columnCode = dataFilterItem.getColumnCode();
 		String suffixCode = dataFilterItem.getSuffixCode();
-		BetweenExpression betweenExpression = new BetweenExpression(prefixCode,
-				columnCode, beginValue, endValue, suffixCode);
+		BetweenExpression betweenExpression = new BetweenExpression(prefixCode, columnCode, beginValue, endValue,
+				suffixCode);
 		return betweenExpression;
 	}
 
@@ -79,17 +77,14 @@ public class DataFilterItemService extends AbstractService<DataFilterItem> {
 		List<EnumValue> enumValueList = enumValueService.list(condition);
 		List<Object> valueList = new ArrayList<Object>();
 		for (EnumValue enumValue : enumValueList) {
-			Object value = LiteralValueUtil.parse(enumValue.getDataValue(),
-					dataType);
+			Object value = LiteralValueUtil.parse(enumValue.getDataValue(), dataType);
 			if (dataType == null) {
-				throw new BusinessException("数据过滤器数据转换错误，dataFilterItem："
-						+ dataFilterItem.getId());
+				throw new BusinessException("数据过滤器数据转换错误，dataFilterItem：" + dataFilterItem.getId());
 			}
 			valueList.add(value);
 		}
 		if (valueList.size() <= 0) {
-			throw new BusinessException("数据过滤器数据转换错误，dataFilterItem："
-					+ dataFilterItem.getId());
+			throw new BusinessException("数据过滤器数据转换错误，dataFilterItem：" + dataFilterItem.getId());
 		}
 
 		String prefixCode = dataFilterItem.getPrefixCode();
@@ -97,8 +92,8 @@ public class DataFilterItemService extends AbstractService<DataFilterItem> {
 		String compareSymbol = dataFilterItem.getCompareSymbol();
 		String suffixCode = dataFilterItem.getSuffixCode();
 
-		EnumExpression enumExpression = new EnumExpression(prefixCode,
-				columnCode, compareSymbol, valueList, suffixCode);
+		EnumExpression enumExpression = new EnumExpression(prefixCode, columnCode, compareSymbol, valueList,
+				suffixCode);
 		return enumExpression;
 
 	}
@@ -108,16 +103,13 @@ public class DataFilterItemService extends AbstractService<DataFilterItem> {
 		String columnCode = dataFilterItem.getColumnCode();
 		String compareSymbol = dataFilterItem.getCompareSymbol();
 		String suffixCode = dataFilterItem.getSuffixCode();
-		NoValueExpression noValueExpression = new NoValueExpression(prefixCode,
-				columnCode, compareSymbol, suffixCode);
+		NoValueExpression noValueExpression = new NoValueExpression(prefixCode, columnCode, compareSymbol, suffixCode);
 		return noValueExpression;
 	}
 
-	private ParenthesisExpression toParenthesisExpression(
-			DataFilterItem dataFilterItem) {
+	private ParenthesisExpression toParenthesisExpression(DataFilterItem dataFilterItem) {
 		String compareSymbol = dataFilterItem.getCompareSymbol();
-		ParenthesisExpression parenthesisExpression = new ParenthesisExpression(
-				compareSymbol);
+		ParenthesisExpression parenthesisExpression = new ParenthesisExpression(compareSymbol);
 		return parenthesisExpression;
 	}
 
@@ -127,15 +119,14 @@ public class DataFilterItemService extends AbstractService<DataFilterItem> {
 		Object value = LiteralValueUtil.parse(firstValue, dataType);
 
 		if (value == null) {
-			throw new BusinessException("数据过滤器数据转换错误，dataFilterItem："
-					+ dataFilterItem.getId());
+			throw new BusinessException("数据过滤器数据转换错误，dataFilterItem：" + dataFilterItem.getId());
 		}
 		String prefixCode = dataFilterItem.getPrefixCode();
 		String columnCode = dataFilterItem.getColumnCode();
 		String compareSymbol = dataFilterItem.getCompareSymbol();
 		String suffixCode = dataFilterItem.getSuffixCode();
-		SingleExpression singleExpression = new SingleExpression(prefixCode,
-				columnCode, compareSymbol, value, suffixCode);
+		SingleExpression singleExpression = new SingleExpression(prefixCode, columnCode, compareSymbol, value,
+				suffixCode);
 		return singleExpression;
 	}
 

@@ -1,5 +1,8 @@
 package org.siqisource.stone.config.model;
 
+import org.siqisource.stone.runtime.mapper.annotation.Table;
+
+@Table(value="st_config")
 public class ConfigEntity {
 
 	/* 类名 */

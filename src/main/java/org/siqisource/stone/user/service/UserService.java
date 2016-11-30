@@ -4,11 +4,11 @@ import java.util.List;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
-import org.siqisource.stone.exceptions.BusinessException;
-import org.siqisource.stone.orm.MybatisMapper;
-import org.siqisource.stone.orm.PartitiveFields;
-import org.siqisource.stone.orm.condition.SimpleCondition;
-import org.siqisource.stone.service.AbstractService;
+import org.siqisource.stone.runtime.exceptions.BusinessException;
+import org.siqisource.stone.runtime.mapper.SingleKeyMapper;
+import org.siqisource.stone.runtime.mapper.condition.PartitiveFields;
+import org.siqisource.stone.runtime.mapper.condition.SimpleCondition;
+import org.siqisource.stone.runtime.service.AbstractSingleKeyService;
 import org.siqisource.stone.user.mapper.UserMapper;
 import org.siqisource.stone.user.model.GroupUser;
 import org.siqisource.stone.user.model.GroupUserView;
@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class UserService extends AbstractService<User> {
+public class UserService extends AbstractSingleKeyService<User, Integer> {
 
 	@Autowired
 	UserMapper mapper;
@@ -27,7 +27,7 @@ public class UserService extends AbstractService<User> {
 	GroupUserService groupUserService;
 
 	@Override
-	protected MybatisMapper<User> getMapper() {
+	protected SingleKeyMapper<User, Integer> getMapper() {
 		return this.mapper;
 	}
 
@@ -50,8 +50,7 @@ public class UserService extends AbstractService<User> {
 
 	public User readUser(Integer userId) {
 		User user = this.read(userId);
-		List<GroupUserView> groupUserList = groupUserService
-				.listGroupUserByUserId(userId);
+		List<GroupUserView> groupUserList = groupUserService.listGroupUserByUserId(userId);
 		user.setGroupUserList(groupUserList);
 		return user;
 	}
@@ -66,14 +65,14 @@ public class UserService extends AbstractService<User> {
 		clearDefaultFields.put("isDefault", false);
 		SimpleCondition condition = new SimpleCondition();
 		condition.andEqual("userId", user.getId());
-		groupUserService.updateBatch(clearDefaultFields, condition);
+		groupUserService.updatePartitive(clearDefaultFields, condition);
 		// 更新默认部门字段
 		PartitiveFields defaultFields = new PartitiveFields();
 		defaultFields.put("isDefault", true);
 		SimpleCondition defaultCondition = new SimpleCondition();
 		defaultCondition.andEqual("userId", user.getId());
 		defaultCondition.andEqual("groupId", defualtGroupId);
-		groupUserService.updateBatch(defaultFields, defaultCondition);
+		groupUserService.updatePartitive(defaultFields, defaultCondition);
 	}
 
 	@Transactional
@@ -96,7 +95,7 @@ public class UserService extends AbstractService<User> {
 		// 增加默认部门
 		SimpleCondition condition = new SimpleCondition();
 		condition.andEqual("userId", userId);
-		groupUserService.deleteBatch(condition);
+		groupUserService.delete(condition);
 	}
 
 	@Transactional
@@ -111,7 +110,7 @@ public class UserService extends AbstractService<User> {
 		if (groupUser.getIsDefault()) {
 			throw new BusinessException("选中用户的当前群组是默认群组，请将默认群组指定为其它群组后再移除");
 		}
-		groupUserService.deleteBatch(condition);
+		groupUserService.delete(condition);
 	}
 
 	private void checkUser(User user) {

@@ -1,6 +1,8 @@
 package org.siqisource.stone.user.model;
 
-			
+import org.siqisource.stone.runtime.mapper.annotation.Table;
+
+@Table("st_group_user")			
 public class GroupUser {
 
 	/*id*/

@@ -2,7 +2,9 @@ package org.siqisource.stone.user.model;
 
 import java.util.List;
 
+import org.siqisource.stone.runtime.mapper.annotation.Table;
 
+@Table("st_user")	
 public class User {
 
 	/** 用户Id */

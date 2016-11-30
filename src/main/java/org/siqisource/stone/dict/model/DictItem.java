@@ -1,79 +1,74 @@
 package org.siqisource.stone.dict.model;
 
-			
+import org.siqisource.stone.runtime.mapper.annotation.Table;
+
+@Table("st_dict_item")
 public class DictItem {
 
 	/**/
-	private  java.lang.Integer id;
+	private java.lang.Integer id;
 
 	/**/
-	private  java.lang.String label;
+	private java.lang.String label;
 
 	/**/
-	private  java.lang.String value;
+	private java.lang.String value;
 
 	/**/
-	private  java.lang.Integer sortNo;
+	private java.lang.Integer sortNo;
 
 	/**/
-	private  java.lang.String remark;
+	private java.lang.String remark;
 
 	/**/
-	private  java.lang.String dictCode;
+	private java.lang.String dictCode;
 
- 
-
-	public  java.lang.Integer getId(){
+	public java.lang.Integer getId() {
 		return this.id;
 	}
-	 
-	public  void setId(java.lang.Integer id){
-		this.id = id ;
+
+	public void setId(java.lang.Integer id) {
+		this.id = id;
 	}
 
-
-	public  java.lang.String getLabel(){
+	public java.lang.String getLabel() {
 		return this.label;
 	}
-	 
-	public  void setLabel(java.lang.String label){
-		this.label = label ;
+
+	public void setLabel(java.lang.String label) {
+		this.label = label;
 	}
 
-
-	public  java.lang.String getValue(){
+	public java.lang.String getValue() {
 		return this.value;
 	}
-	 
-	public  void setValue(java.lang.String value){
-		this.value = value ;
+
+	public void setValue(java.lang.String value) {
+		this.value = value;
 	}
 
-
-	public  java.lang.Integer getSortNo(){
+	public java.lang.Integer getSortNo() {
 		return this.sortNo;
 	}
-	 
-	public  void setSortNo(java.lang.Integer sortNo){
-		this.sortNo = sortNo ;
+
+	public void setSortNo(java.lang.Integer sortNo) {
+		this.sortNo = sortNo;
 	}
 
-
-	public  java.lang.String getRemark(){
+	public java.lang.String getRemark() {
 		return this.remark;
 	}
-	 
-	public  void setRemark(java.lang.String remark){
-		this.remark = remark ;
+
+	public void setRemark(java.lang.String remark) {
+		this.remark = remark;
 	}
 
-
-	public  java.lang.String getDictCode(){
+	public java.lang.String getDictCode() {
 		return this.dictCode;
 	}
-	 
-	public  void setDictCode(java.lang.String dictCode){
-		this.dictCode = dictCode ;
+
+	public void setDictCode(java.lang.String dictCode) {
+		this.dictCode = dictCode;
 	}
-	 
+
 }

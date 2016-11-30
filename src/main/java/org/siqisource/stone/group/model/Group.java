@@ -1,8 +1,8 @@
 package org.siqisource.stone.group.model;
 
+import org.siqisource.stone.runtime.mapper.annotation.Table;
 
-
-			
+@Table("st_group")		
 public class Group {
 
 	/*群组id*/
