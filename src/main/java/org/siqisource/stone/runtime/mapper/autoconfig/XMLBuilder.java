@@ -3,6 +3,7 @@ package org.siqisource.stone.runtime.mapper.autoconfig;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -74,8 +75,6 @@ public class XMLBuilder {
 				result.append(countBy(method));
 			} else if (name.startsWith(KEY_LIST_BY)) {
 				result.append(listBy(method));
-			} else if (name.startsWith(KEY_COUNT_BY)) {
-				result.append(countBy(method));
 			} else if (name.startsWith(KEY_DELETE_BY)) {
 				result.append(deleteBy(method));
 			} else if (name.startsWith(KEY_UPDATE_BY)) {
@@ -276,8 +275,8 @@ public class XMLBuilder {
 	private String readBy(Method method) {
 		String name = method.getName();
 		name = name.substring(KEY_READ_BY.length(), name.length());
-		String [] propertyArray = name.split(LINKER);
-		for(int i = 0 ; i < propertyArray.length ; i++){
+		String[] propertyArray = name.split(LINKER);
+		for (int i = 0; i < propertyArray.length; i++) {
 			propertyArray[i] = NameConverter.firstLetterLower(propertyArray[i]);
 		}
 		List<String> propertyNames = Arrays.asList(propertyArray);
@@ -287,7 +286,8 @@ public class XMLBuilder {
 		}
 
 		StringBuffer sbSql = new StringBuffer(256);
-		sbSql.append("<select id='" + method.getName() + "' parameterType='map' resultType='" + model.getName() + "'> ");
+		sbSql.append(
+				"<select id='" + method.getName() + "' parameterType='map' resultType='" + model.getName() + "'> ");
 		sbSql.append("select * from " + model.getFullTableName());
 		sbSql.append(" WHERE ");
 		for (int i = 0, iSize = byNames.size(); i < iSize; i++) {
@@ -307,14 +307,18 @@ public class XMLBuilder {
 	private String countBy(Method method) {
 		String name = method.getName();
 		name = name.substring(KEY_COUNT_BY.length(), name.length());
-		List<String> propertyNames = Arrays.asList(name.split(LINKER));
+		List<String> propertyNames = new ArrayList<String>();
+		for (String propertyNameInMethod : name.split(LINKER)) {
+			propertyNames.add(NameConverter.firstLetterLower(propertyNameInMethod));
+		}
 		List<Property> byNames = this.model.getPropertiesByNames(propertyNames);
 		if (byNames.size() == 0) {
 			return "";
 		}
 
 		StringBuffer sbSql = new StringBuffer(256);
-		sbSql.append("<select id='" + method.getName() + "' parameterType='map' resultType='" + model.getName() + "'> ");
+		sbSql.append(
+				"<select id='" + method.getName() + "' parameterType='map' resultType='" + model.getName() + "'> ");
 		sbSql.append("select count(1) as cnt from " + model.getFullTableName());
 		sbSql.append(" WHERE ");
 		for (int i = 0, iSize = byNames.size(); i < iSize; i++) {
@@ -341,7 +345,8 @@ public class XMLBuilder {
 		}
 
 		StringBuffer sbSql = new StringBuffer(256);
-		sbSql.append("<select id='" + method.getName() + "' parameterType='map' resultType='" + model.getName() + "'> ");
+		sbSql.append(
+				"<select id='" + method.getName() + "' parameterType='map' resultType='" + model.getName() + "'> ");
 		sbSql.append("select * from " + model.getFullTableName());
 		sbSql.append(" WHERE ");
 		for (int i = 0, iSize = byNames.size(); i < iSize; i++) {

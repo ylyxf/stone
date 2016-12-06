@@ -1,4 +1,4 @@
-package org.siqisource.stone.runtime.mapper.model;
+package org.siqisource.stone.runtime.mapper.utils;
 
 import java.lang.reflect.Field;
 import java.sql.DatabaseMetaData;
@@ -11,8 +11,8 @@ import org.apache.ibatis.type.JdbcType;
 import org.siqisource.stone.runtime.mapper.annotation.KeyGenerator;
 import org.siqisource.stone.runtime.mapper.annotation.Table;
 import org.siqisource.stone.runtime.mapper.dialect.Dialect;
-import org.siqisource.stone.runtime.mapper.utils.NameConverter;
-import org.siqisource.stone.runtime.mapper.utils.TypeUtils;
+import org.siqisource.stone.runtime.mapper.model.Model;
+import org.siqisource.stone.runtime.mapper.model.Property;
 
 public class ModelClazzReader {
 

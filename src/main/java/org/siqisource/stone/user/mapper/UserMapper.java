@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserMapper extends SingleKeyMapper<User, Integer> {
 
-	public int countByPhoneNumber();
+	public int countByMobilePhone(String mobilePhone);
 }

@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class SmartMapperSpringConfig {
 
-	@Value("${stone.db.dialect}")
+	@Value("${stone.db.dialect:}")
 	private String dialectClazz = "";
 
 	@Bean(name = "dialect")
@@ -35,7 +35,6 @@ public class SmartMapperSpringConfig {
 
 	@Bean(name = "paginationInterceptor")
 	public PaginationInterceptor paginationInterceptor(@Qualifier("dialect") Dialect dialect) {
-
 		PaginationInterceptor paginationInterceptor = new PaginationInterceptor();
 		paginationInterceptor.setDialect(dialect);
 		return paginationInterceptor;
@@ -46,7 +45,7 @@ public class SmartMapperSpringConfig {
 			@Qualifier("dialect") Dialect dialect, GeneralMapper<?>[] keylessMappers) {
 		SmartMapperRegistry mybatisModelRegistry = new SmartMapperRegistry();
 		mybatisModelRegistry.setSqlSessionFactory(sqlSessionFactory);
-		mybatisModelRegistry.setKeylessMappers(keylessMappers);
+		mybatisModelRegistry.setGeneralMappers(keylessMappers);
 		mybatisModelRegistry.setDialect(dialect);
 		mybatisModelRegistry.init();
 		return mybatisModelRegistry;

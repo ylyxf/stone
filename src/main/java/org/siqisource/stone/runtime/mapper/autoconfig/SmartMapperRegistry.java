@@ -13,8 +13,8 @@ import org.siqisource.stone.runtime.mapper.GeneralMapper;
 import org.siqisource.stone.runtime.mapper.SingleKeyMapper;
 import org.siqisource.stone.runtime.mapper.dialect.Dialect;
 import org.siqisource.stone.runtime.mapper.model.Model;
-import org.siqisource.stone.runtime.mapper.model.ModelClazzReader;
 import org.siqisource.stone.runtime.mapper.plugins.UUIDTypeHandler;
+import org.siqisource.stone.runtime.mapper.utils.ModelClazzReader;
 import org.siqisource.stone.runtime.mapper.utils.TypeResolver;
 
 public class SmartMapperRegistry {
@@ -45,7 +45,7 @@ public class SmartMapperRegistry {
 		return generalMappers;
 	}
 
-	public void setKeylessMappers(GeneralMapper<?>[] generalMappers) {
+	public void setGeneralMappers(GeneralMapper<?>[] generalMappers) {
 		this.generalMappers = generalMappers;
 	}
 
