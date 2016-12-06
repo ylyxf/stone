@@ -4,113 +4,122 @@ import java.util.List;
 
 import org.siqisource.stone.runtime.mapper.annotation.Table;
 
-@Table("st_user")	
+@Table("st_user")
 public class User {
 
 	/** 用户Id */
-	private java.lang.Integer id;
+	private Integer id;
 
 	/** 账户 */
-	private java.lang.String account;
+	private String account;
 
 	/** 密码 */
-	private java.lang.String password;
+	private String password;
 
 	/** 用户名 */
-	private java.lang.String name;
-	
+	private String name;
+
 	/** 类型 */
-	private java.lang.String type;
+	private String type;
+
+	/** 电话号码 */
+	private String phone;
 
 	/** 手机号码 */
-	private java.lang.String phone;
+	private String mobilePhone;
 
 	/** 电子邮箱 */
-	private java.lang.String email;
+	private String email;
 
 	/** 是否可用 */
-	private java.lang.Boolean enabled;
+	private Boolean enabled;
 
 	/** 是否删除 */
-	private java.lang.Boolean logicDeleted;
+	private Boolean logicDeleted;
 
 	/** 序号 */
 	private Integer sortNo;
-	
+
 	/** 用户所在的所有群组 */
 	private List<GroupUserView> groupUserList;
-
-
-	public java.lang.Integer getId() {
+	
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(java.lang.Integer id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	public java.lang.String getAccount() {
+	public String getAccount() {
 		return this.account;
 	}
 
-	public void setAccount(java.lang.String account) {
+	public void setAccount(String account) {
 		this.account = account;
 	}
 
-	public java.lang.String getPassword() {
+	public String getPassword() {
 		return this.password;
 	}
 
-	public void setPassword(java.lang.String password) {
+	public void setPassword(String password) {
 		this.password = password;
 	}
 
-	public java.lang.String getName() {
+	public String getName() {
 		return this.name;
 	}
 
-	public void setName(java.lang.String name) {
+	public void setName(String name) {
 		this.name = name;
 	}
-	
 
-	public java.lang.String getType() {
+	public String getType() {
 		return type;
 	}
 
-	public void setType(java.lang.String type) {
+	public void setType(String type) {
 		this.type = type;
 	}
+	
+	public String getMobilePhone() {
+		return mobilePhone;
+	}
 
-	public java.lang.String getPhone() {
+	public void setMobilePhone(String mobilePhone) {
+		this.mobilePhone = mobilePhone;
+	}
+
+	public String getPhone() {
 		return this.phone;
 	}
 
-	public void setPhone(java.lang.String phone) {
+	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 
-	public java.lang.String getEmail() {
+	public String getEmail() {
 		return this.email;
 	}
 
-	public void setEmail(java.lang.String email) {
+	public void setEmail(String email) {
 		this.email = email;
 	}
 
-	public java.lang.Boolean getEnabled() {
+	public Boolean getEnabled() {
 		return this.enabled;
 	}
 
-	public void setEnabled(java.lang.Boolean enabled) {
+	public void setEnabled(Boolean enabled) {
 		this.enabled = enabled;
 	}
 
-	public java.lang.Boolean getLogicDeleted() {
+	public Boolean getLogicDeleted() {
 		return logicDeleted;
 	}
 
-	public void setLogicDeleted(java.lang.Boolean logicDeleted) {
+	public void setLogicDeleted(Boolean logicDeleted) {
 		this.logicDeleted = logicDeleted;
 	}
 
